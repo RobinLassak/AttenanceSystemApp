@@ -1,0 +1,71 @@
+## Build výstupy
+bin/
+obj/
+
+## Visual Studio konfigurace
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider (pokud někdy použiješ)
+.idea/
+
+## VS Code (kdybys přepnul)
+.vscode/
+
+## Nastavení projektu (lokální)
+*.dbmdl
+*.pdb
+*.cache
+*.log
+*.tlog
+
+## ASP.NET Core tajné klíče
+secrets.json
+**/appsettings.Development.json
+**/appsettings.Local.json
+
+## Paket/nuget věci
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Deployment publikace (např. z `dotnet publish`)
+publish/
+*.Publish.xml
+
+## Uživatelské zálohy a temp
+*.tmp
+*.bak
+*.old
+*.orig
+
+## Testovací výsledky
+TestResults/
+*.coverage
+*.coveragexml
+
+## OS specifické
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+## Npm/Node (pokud máš front-end)
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+
+## Logy
+*.log
+
+## Docker (pokud používáš)
+*.container
+docker-compose.override.yml
