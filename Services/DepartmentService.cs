@@ -37,6 +37,7 @@ namespace AttenanceSystemApp.Services
                 Id = department.Id,
                 Name = department.Name,
                 Adress = department.Adress,
+                City = department.City,
             };
         }
         private static Department DtoToModel(DepartmentDTO department)
@@ -46,6 +47,7 @@ namespace AttenanceSystemApp.Services
                 Id = department.Id,
                 Name = department.Name,
                 Adress = department.Adress,
+                City = department.City,
             };
         }
     }
