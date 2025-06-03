@@ -1,4 +1,5 @@
 using AttenanceSystemApp;
+using AttenanceSystemApp.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ builder.Services.AddDbContext<AttenanceDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("AttenanceDbConnection"));
 });
+//Pridani servisek
+builder.Services.AddScoped<DepartmentService>();
 
 var app = builder.Build();
 
