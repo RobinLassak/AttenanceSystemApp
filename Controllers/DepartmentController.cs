@@ -10,9 +10,11 @@ namespace AttenanceSystemApp.Controllers
         {
             _departmentService = departmentService;
         }
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var allDepartments = _departmentService.GetAll();
+            return View(allDepartments);
         }
     }
 }
