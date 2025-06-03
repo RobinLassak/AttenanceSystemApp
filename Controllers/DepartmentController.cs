@@ -30,5 +30,18 @@ namespace AttenanceSystemApp.Controllers
             await _departmentService.CreateAsync(newDepartment);
             return RedirectToAction("Index");
         }
+        //Editace oddeleni
+        [HttpGet]
+        public async Task<IActionResult> EditAsync(int id)
+        {
+            var departmentToEdit = await _departmentService.GetByIdAsync(id);
+            return View(departmentToEdit);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditAsync(DepartmentDTO departmentDTO, int id)
+        {
+            await _departmentService.UpdateAsync(departmentDTO, id);
+            return RedirectToAction("Index");
+        }
     }
 }

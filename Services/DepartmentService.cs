@@ -1,5 +1,6 @@
 ﻿using AttenanceSystemApp.DTO;
 using AttenanceSystemApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AttenanceSystemApp.Services
 {
@@ -29,8 +30,20 @@ namespace AttenanceSystemApp.Services
             _dbContext.Departments.Add(departmentToSave);
             await _dbContext.SaveChangesAsync();
         }
+        //Editace oddeleni
+        internal async Task<DepartmentDTO> GetByIdAsync(int id)
+        {
+            var departmentToEdit = await _dbContext.Departments.FindAsync(id);
+            return ModelToDto(departmentToEdit);
+        }
+
+        internal async Task UpdateAsync(DepartmentDTO departmentDTO, int id)
+        {
+            _dbContext.Update(DtoToModel(departmentDTO));
+            await _dbContext.SaveChangesAsync();
+        }
         //Pomocne metody
-        private static DepartmentDTO ModelToDto(Department department)
+        private DepartmentDTO ModelToDto(Department department)
         {
             return new DepartmentDTO()
             {
@@ -40,7 +53,7 @@ namespace AttenanceSystemApp.Services
                 City = department.City,
             };
         }
-        private static Department DtoToModel(DepartmentDTO department)
+        private Department DtoToModel(DepartmentDTO department)
         {
             return new Department()
             {

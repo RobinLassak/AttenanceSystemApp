@@ -1,0 +1,18 @@
+﻿@using AttenanceSystemApp.DTO
+@model DepartmentDTO
+
+<div class="container">
+	<h1 class="my-5 text-center">Edit department</h1>
+	<form asp-action="Edit" method="post">
+	<div class="form-group">
+		<label class="form-label" asp-for="Name">Name of department:</label>
+		<input type="text" asp-for="@Model.Name" class="form-control" />
+		<label class="form-label" asp-for="Adress">Adress:</label>
+		<input type="text" asp-for="@Model.Adress" class="form-control" />
+		<label class="form-label" asp-for="City">City:</label>
+		<input type="text" asp-for="@Model.City" class="form-control" />
+	</div>
+	<button type="submit" class="btn btn-warning my-2">Edit</button>
+	<button type="reset" class="btn btn-danger my-2">Reset</button>
+</form>
+</div>
