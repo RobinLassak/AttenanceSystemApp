@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AttenanceSystemApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AttenanceSystemApp
 {
@@ -6,5 +7,8 @@ namespace AttenanceSystemApp
     {
         public AttenanceDbContext(DbContextOptions<AttenanceDbContext> options)
             :base(options) { }
+
+        //Registrace jednotlivych tabulek do databaze
+        public DbSet<Department> Departments { get; set; }
     }
 }
