@@ -15,7 +15,7 @@ builder.Services.AddDbContext<AttenanceDbContext>(options =>
 });
 //Pridani servisek
 builder.Services.AddScoped<DepartmentService>();
-
+builder.Services.AddScoped<EmployeeService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
