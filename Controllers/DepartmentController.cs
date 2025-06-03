@@ -43,5 +43,12 @@ namespace AttenanceSystemApp.Controllers
             await _departmentService.UpdateAsync(departmentDTO, id);
             return RedirectToAction("Index");
         }
+        //Smazani oddeleni
+        [HttpPost]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _departmentService.DeleteAsync(id);
+            return RedirectToAction("Index");
+        }
     }
 }

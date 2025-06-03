@@ -42,6 +42,16 @@ namespace AttenanceSystemApp.Services
             _dbContext.Update(DtoToModel(departmentDTO));
             await _dbContext.SaveChangesAsync();
         }
+        //Smazani oddeleni
+        internal async Task DeleteAsync(int id)
+        {
+            var departmentToDelete = await _dbContext.Departments.FindAsync(id);
+            if(departmentToDelete != null)
+            {
+                _dbContext.Departments.Remove(departmentToDelete);
+            }
+            await _dbContext.SaveChangesAsync();
+        }
         //Pomocne metody
         private DepartmentDTO ModelToDto(Department department)
         {
