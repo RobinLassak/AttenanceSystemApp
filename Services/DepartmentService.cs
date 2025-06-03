@@ -22,6 +22,13 @@ namespace AttenanceSystemApp.Services
             }
             return departmentsDtos;
         }
+        //Vytvoreni noveho oddeleni
+        internal async Task CreateAsync(DepartmentDTO newDepartment)
+        {
+            Department departmentToSave = DtoToModel(newDepartment);
+            _dbContext.Departments.Add(departmentToSave);
+            await _dbContext.SaveChangesAsync();
+        }
         //Pomocne metody
         private static DepartmentDTO ModelToDto(Department department)
         {
@@ -29,6 +36,16 @@ namespace AttenanceSystemApp.Services
             {
                 Id = department.Id,
                 Name = department.Name,
+                Adress = department.Adress,
+            };
+        }
+        private static Department DtoToModel(DepartmentDTO department)
+        {
+            return new Department()
+            {
+                Id = department.Id,
+                Name = department.Name,
+                Adress = department.Adress,
             };
         }
     }
