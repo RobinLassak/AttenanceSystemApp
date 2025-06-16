@@ -2,13 +2,15 @@
 @model EmployeeDTO
 
 <div class="container">
-	<h1 class="my-5 text-center">Create new department</h1>
+	<h1 class="my-5 text-center">Create new employee</h1>
 	<form asp-action="Create" method="post">
 	<div class="form-group">
 		<label class="form-label" asp-for="FirsName">First name:</label>
 		<input type="text" asp-for="FirsName" class="form-control" />
 		<label class="form-label" asp-for="LastName">Last name:</label>
 		<input type="text" asp-for="LastName" class="form-control" />
+		<label class="form-label" asp-for="HourlyRate">Hourly rate:</label>
+		<input type="number" asp-for="HourlyRate" class="form-control" />
 		<div class="mb-3">
 			<label asp-for="DepartmentId" class="form-label">Department:</label>
 				@Html.DropDownListFor(model => model.DepartmentId,

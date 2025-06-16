@@ -14,7 +14,9 @@ namespace AttenanceSystemApp.Services
         //Vyobrazeni vsech zamestnancu
         public List<EmployeeDTO> GetAll()
         {
-            var allEmployees = _dbContext.Employees.ToList();
+            var allEmployees = _dbContext.Employees
+                .Include(e => e.Department)
+                .ToList();
             var employeesDtos = new List<EmployeeDTO>();
             foreach (var employee in allEmployees)
             {
@@ -48,6 +50,7 @@ namespace AttenanceSystemApp.Services
                 Id = newEmployee.Id,
                 FirsName = newEmployee.FirsName,
                 LastName = newEmployee.LastName,
+                HourlyRate = newEmployee.HourlyRate,
                 DepartmentId = newEmployee.DepartmentId,
             };
         }
@@ -58,6 +61,7 @@ namespace AttenanceSystemApp.Services
                 Id = employee.Id,
                 FirsName = employee.FirsName,
                 LastName = employee.LastName,
+                HourlyRate = employee.HourlyRate,
                 Department = employee.Department,
                 DepartmentId = employee.DepartmentId,
             };
