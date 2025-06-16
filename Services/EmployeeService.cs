@@ -56,6 +56,16 @@ namespace AttenanceSystemApp.Services
             _dbContext.Update(DtoToModel(employeeDTO));
             await _dbContext.SaveChangesAsync();
         }
+        //Smazani zamestnance
+        internal async Task DeleteAsync(int id)
+        {
+            var employeeToDelete = await _dbContext.Employees.FindAsync(id);
+            if (employeeToDelete != null)
+            {
+                _dbContext.Employees.Remove(employeeToDelete);
+            }
+            await _dbContext.SaveChangesAsync();
+        }
         //Pomocne metody
         private Employee DtoToModel(EmployeeDTO newEmployee)
         {

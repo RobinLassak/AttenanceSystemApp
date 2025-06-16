@@ -48,5 +48,12 @@ namespace AttenanceSystemApp.Controllers
             await _employeeService.UpdateAsync(employeeDTO, id);
             return RedirectToAction("Index");
         }
+        //Smazani zamestnance
+        [HttpPost]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _employeeService.DeleteAsync(id);
+            return RedirectToAction("Index");
+        }
     }
 }
