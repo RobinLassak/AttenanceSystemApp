@@ -1,5 +1,8 @@
-﻿using AttenanceSystemApp.Services;
+﻿using AttenanceSystemApp.DTO;
+using AttenanceSystemApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AttenanceSystemApp.Controllers
 {
@@ -15,6 +18,20 @@ namespace AttenanceSystemApp.Controllers
         {
             var allEmployees = _employeeService.GetAll();
             return View(allEmployees);
+        }
+        //Vytvoreni noveho zamestnance
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var departments = _employeeService.GetAllDepartments();
+            ViewBag.Departments = new SelectList(departments, "Id", "Name");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(EmployeeDTO newEmployee)
+        {
+            await _employeeService.CreateAsync(newEmployee);
+            return RedirectToAction("Index");
         }
     }
 }

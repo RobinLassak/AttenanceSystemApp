@@ -1,0 +1,23 @@
+﻿@using AttenanceSystemApp.DTO
+@model EmployeeDTO
+
+<div class="container">
+	<h1 class="my-5 text-center">Create new department</h1>
+	<form asp-action="Create" method="post">
+	<div class="form-group">
+		<label class="form-label" asp-for="FirsName">First name:</label>
+		<input type="text" asp-for="FirsName" class="form-control" />
+		<label class="form-label" asp-for="LastName">Last name:</label>
+		<input type="text" asp-for="LastName" class="form-control" />
+		<div class="mb-3">
+			<label asp-for="DepartmentId" class="form-label">Department:</label>
+				@Html.DropDownListFor(model => model.DepartmentId,
+							(SelectList)ViewBag.Departments,
+							new { @class = "form-select" })
+				@Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	<button type="submit" class="btn btn-warning my-2">Create</button>
+	<button type="reset" class="btn btn-danger my-2">Reset</button>
+</form>
+</div>
