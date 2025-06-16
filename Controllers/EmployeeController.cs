@@ -33,5 +33,20 @@ namespace AttenanceSystemApp.Controllers
             await _employeeService.CreateAsync(newEmployee);
             return RedirectToAction("Index");
         }
+        //Editace zamestnancu
+        [HttpGet]
+        public async Task<IActionResult> EditAsync(int id)
+        {
+            var employeeToEdit = await _employeeService.GetByIdAsync(id);
+            var departments = _employeeService.GetAllDepartments();
+            ViewBag.Departments = new SelectList(departments, "Id", "Name");
+            return View(employeeToEdit);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditAsync(EmployeeDTO employeeDTO, int id)
+        {
+            await _employeeService.UpdateAsync(employeeDTO, id);
+            return RedirectToAction("Index");
+        }
     }
 }

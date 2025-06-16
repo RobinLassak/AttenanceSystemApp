@@ -42,6 +42,20 @@ namespace AttenanceSystemApp.Services
         {
             return _dbContext.Departments.ToList();
         }
+        //Editace zamestnancu
+        internal async Task<EmployeeDTO> GetByIdAsync(int id)
+        {
+            var employeeToEdit = await _dbContext.Employees
+                .Include(e => e.Department)
+                .FirstOrDefaultAsync(e => e.Id == id);
+            return ModelToDto(employeeToEdit);
+        }
+
+        internal async Task UpdateAsync(EmployeeDTO employeeDTO, int id)
+        {
+            _dbContext.Update(DtoToModel(employeeDTO));
+            await _dbContext.SaveChangesAsync();
+        }
         //Pomocne metody
         private Employee DtoToModel(EmployeeDTO newEmployee)
         {
