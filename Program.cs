@@ -14,6 +14,7 @@ builder.Services.AddDbContext<AttenanceDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AttenanceDbConnection"));
 });
 //Pridani servisek
+builder.Services.AddHttpClient<PublicHolidayService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<EmployeeService>();
 var app = builder.Build();
