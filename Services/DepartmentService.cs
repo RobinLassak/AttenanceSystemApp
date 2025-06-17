@@ -52,6 +52,23 @@ namespace AttenanceSystemApp.Services
             }
             await _dbContext.SaveChangesAsync();
         }
+        //Vyhledani oddeleni pro vypis zamestnancu
+
+        public DepartmentDTO GetDepartmentById(int id)
+        {
+            var department = _dbContext.Departments.FirstOrDefault(d => d.Id == id);
+            if(department == null)
+            {
+                return null;
+            }
+            return new DepartmentDTO()
+            {
+                Id = department.Id,
+                Name = department.Name,
+                Adress = department.Adress,
+                City = department.City,
+            };
+        }
         //Pomocne metody
         private DepartmentDTO ModelToDto(Department department)
         {

@@ -66,6 +66,20 @@ namespace AttenanceSystemApp.Services
             }
             await _dbContext.SaveChangesAsync();
         }
+        //Ziskani seznamu zamestnancu z kazdeho daneho oddeleni
+        public IEnumerable<EmployeeDTO> GetEmployeesByDepartmentId(int id)
+        {
+            var employees = _dbContext.Employees.Where(e => e.DepartmentId == id).ToList();
+            return employees.Select(e => new EmployeeDTO()
+            {
+                Id = e.Id,
+                FirsName = e.FirsName,
+                LastName = e.LastName,
+                HourlyRate = e.HourlyRate,
+                DepartmentId = e.DepartmentId,
+
+            }).OrderBy(e => e.LastName);
+        }
         //Pomocne metody
         private Employee DtoToModel(EmployeeDTO newEmployee)
         {

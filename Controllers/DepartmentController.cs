@@ -1,5 +1,6 @@
 ﻿using AttenanceSystemApp.DTO;
 using AttenanceSystemApp.Services;
+using AttenanceSystemApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AttenanceSystemApp.Controllers
@@ -7,9 +8,11 @@ namespace AttenanceSystemApp.Controllers
     public class DepartmentController : Controller
     {
         private readonly DepartmentService _departmentService;
-        public DepartmentController(DepartmentService departmentService)
+        private readonly EmployeeService _employeeService;
+        public DepartmentController(DepartmentService departmentService, EmployeeService employeeService)
         {
             _departmentService = departmentService;
+            _employeeService = employeeService;
         }
         //Zobrazeni vsech oddeleni
         [HttpGet]
@@ -49,6 +52,26 @@ namespace AttenanceSystemApp.Controllers
         {
             await _departmentService.DeleteAsync(id);
             return RedirectToAction("Index");
+        }
+        //Metoda pro vypis zamestnancu oddeleni
+        [HttpGet]
+        public IActionResult Employees(int id)
+        {
+            var department = _departmentService.GetDepartmentById(id);
+            if (department == null)
+            {
+                return RedirectToAction("Department not found");
+            }
+
+            var employees = _employeeService.GetEmployeesByDepartmentId(id);
+
+            var viewModel = new DepartmentEmployeesViewModel
+            {
+                Department = department,
+                Employees = employees
+            };
+
+            return View("DepartmentEmployees", viewModel);
         }
     }
 }
