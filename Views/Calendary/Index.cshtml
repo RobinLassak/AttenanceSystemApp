@@ -1,0 +1,60 @@
+﻿@model AttenanceSystemApp.ViewModels.CalendarViewModel
+
+<div class="container text-center">
+    <h1 class="my-5">Calendar of attenance</h1>
+
+    <form asp-controller="Calendary" asp-action="Index" method="get" class="row justify-content-center mb-4">
+        <div class="col-md-2">
+            <label for="year" class="form-label">Year</label>
+            <select id="year" name="year" class="form-select">
+                @foreach (var year in Model.AvailableYears)
+                {
+                        <option value="@year" selected="@(year == Model.SelectedYear)">@year</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="month" class="form-label">Month</label>
+            <select id="month" name="month" class="form-select">
+                @for (int i = 0; i < Model.AvailableMonths.Count; i++)
+                {
+                    var monthName = Model.AvailableMonths[i];
+                        <option value="@(i + 1)" selected="@(i + 1 == Model.SelectedMonth)">@monthName</option>
+                }
+            </select>
+        </div>
+        <input type="hidden" name="countryCode" value="CZ" />
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-warning w-100">Zobrazit</button>
+        </div>
+    </form>
+
+    <table class="table table-success table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Check-in</th>
+                <th scope="col">Check-out</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Workdays.Any())
+            {
+                foreach (var day in Model.Workdays)
+                {
+                            <tr>
+                                <td>@day.ToString("dddd dd. MM. yyyy")</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                }
+            }
+            else
+            {
+                    <tr>
+                        <td colspan="3">Work days not found.</td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>

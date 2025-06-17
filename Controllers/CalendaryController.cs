@@ -21,7 +21,7 @@ namespace AttenanceSystemApp.Controllers
 
             // Získání pracovních dnů
             var country = string.IsNullOrEmpty(countryCode) ? "CZ" : countryCode;
-            var calendarDays = await _publicHolidayService.GetMonthCalendarAsync(selectedYear, selectedMonth, countryCode);
+            var calendarDays = await _publicHolidayService.GetMonthCalendarAsync(selectedYear, selectedMonth, country);
 
             // Sestavení ViewModelu
             var model = new CalendarViewModel
