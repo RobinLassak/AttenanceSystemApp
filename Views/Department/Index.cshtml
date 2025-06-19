@@ -24,13 +24,13 @@
 					  <td>@item.Adress</td>
 					  <td>@item.City</td>
 					  <td>
-						  <a class="btn btn-warning" asp-action="Employees" asp-route-id="@item.Id">Show</a>
+						  <a class="btn btn-warning btn-sm" asp-action="Employees" asp-route-id="@item.Id">Show</a>
 					  </td>
 					  <td>
 						  <div class="d-flex align-items-center justify-content-center gap-2">
-							  <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+							  <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
 							  <form method="post">
-								  <button type="submit" class="btn btn-danger" asp-action="Delete" 
+								  <button type="submit" class="btn btn-danger btn-sm" asp-action="Delete" 
 								  asp-route-id="@item.Id">Delete</button>
 							  </form>
 						  </div>

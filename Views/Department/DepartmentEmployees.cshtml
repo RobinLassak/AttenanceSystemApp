@@ -23,13 +23,13 @@
 						<td>@item.LastName</td>
 						<td>@item.HourlyRate</td>
 						<td>
-								<a class="btn btn-warning" asp-controller="Employee" asp-action="Show">Show</a>
+								<a class="btn btn-warning btn-sm" asp-controller="Employee" asp-action="Show">Show</a>
 						</td>
 						<td>
 							<div class="d-flex align-items-center justify-content-center gap-2">
-								<a class="btn btn-warning" asp-controller="Employee" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+								<a class="btn btn-warning btn-sm" asp-controller="Employee" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
 								<form method="post">
-										<button type="submit" class="btn btn-danger" asp-controller="Employee" asp-action="Delete" 
+										<button type="submit" class="btn btn-danger btn-sm" asp-controller="Employee" asp-action="Delete" 
 									asp-route-id="@item.Id">Delete</button>
 								</form>
 							</div>

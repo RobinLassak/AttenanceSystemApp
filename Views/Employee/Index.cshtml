@@ -4,7 +4,8 @@
 <div class="container text-center">
 	<h1 class="my-5">Employees</h1>
 	<a asp-action="Create" class="btn btn-warning mb-5 text-center">Create new employee</a>
-	<table class="table table-success table-striped">
+	<div class="table-responsive">
+		<table class="table table-success table-striped">
 		<thead>
 			<tr>
 				<th scope="col">ID</th>
@@ -12,33 +13,34 @@
 				<th scope="col">Last Name</th>
 				<th scope="col">Hourly rate</th>
 				<th scope="col">Department</th>
-				<th scope="col">Show attenance</th>
+				<th scope="col">Attenance</th>
 				<th scope="col">Action</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<th scope="row">@item.Id</th>
-				    <td>@item.FirsName</td>
-				    <td>@item.LastName</td>
-					<td>@item.HourlyRate</td>
-					<td>@item.Department?.Name</td>
-					<td>
-						<a class="btn btn-warning" asp-controller="Calendary" asp-action="Index">Show</a>
-					</td>
-					<td>
-						<div class="d-flex align-items-center justify-content-center gap-2">
-							<a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-							<form method="post">
-								<button type="submit" class="btn btn-danger" asp-action="Delete" 
-								asp-route-id="@item.Id">Delete</button>
-							</form>
-						</div>
-					</td>
-				</tr>
-			}
+				@foreach (var item in Model)
+				{
+					<tr>
+						<th scope="row">@item.Id</th>
+						<td>@item.FirsName</td>
+						<td>@item.LastName</td>
+						<td>@item.HourlyRate</td>
+						<td>@item.Department?.Name</td>
+						<td>
+							<a class="btn btn-warning btn-sm" asp-controller="Calendary" asp-action="Index">Show</a>
+						</td>
+						<td>
+							<div class="d-flex align-items-center justify-content-center gap-2">
+								<a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+								<form method="post">
+									<button type="submit" class="btn btn-danger btn-sm" asp-action="Delete" 
+									asp-route-id="@item.Id">Delete</button>
+								</form>
+							</div>
+						</td>
+					</tr>
+				}
 		</tbody>
 	</table>
+	</div>
 </div>

@@ -29,32 +29,59 @@
         </div>
     </form>
 
-    <table class="table table-success table-striped">
+    <div class="table-responsive">
+        <table class="table table-success table-striped">
         <thead>
             <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Check-in</th>
-                <th scope="col">Check-out</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th colspan="2">Attendance</th>
+                <th colspan="2">Doctor</th>
+                <th colspan="2">Smoke</th>
+                <th>Vacation</th>
+                <th>Sick Leave</th>
+                <th>Worked hours</th>
+            </tr>
+            <tr>
+                <th colspan="2"></th>
+                <th>In</th>
+                <th>Out</th>
+                <th>In</th>
+                <th>Out</th>
+                <th>In</th>
+                <th>Out</th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @if (Model.Workdays.Any())
-            {
-                foreach (var day in Model.Workdays)
+                @if (Model.Workdays.Any())
                 {
-                            <tr>
-                                <td>@day.ToString("dddd dd. MM. yyyy")</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                    foreach (var day in Model.Workdays)
+                    {
+                                    <tr>
+                                        <td>@day.ToString("dd. MM.")</td>
+                                        <td>@day.ToString("dddd")</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>                                      
+                                    </tr>
+                    }
                 }
-            }
-            else
-            {
-                    <tr>
-                        <td colspan="3">Work days not found.</td>
-                    </tr>
-            }
+                else
+                {
+                        <tr>
+                            <td colspan="3">Work days not found.</td>
+                        </tr>
+                }
         </tbody>
     </table>
+    </div>
 </div>
