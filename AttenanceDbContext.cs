@@ -11,5 +11,6 @@ namespace AttenanceSystemApp
         //Registrace jednotlivych tabulek do databaze
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<AttenanceRecord> AttenanceRecords { get; set; }
     }
 }
