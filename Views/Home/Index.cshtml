@@ -2,7 +2,34 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center m-5">
+    <h1 class="m-3">Welcome to attenance system app</h1>
+    <h4>Created by ASP.NET Core MVC</h4>
 </div>
+<div class="m-5">
+    <h5 class="m-2">1. Introduction</h5>
+    <p class="ms-4 mt-3">This application is designed for managing company attendance. It is used to record employees' arrival and departure times, 
+        track vacations, sick leave, and the total hours worked per month for each employee, and then store this information in a database. 
+        Employees are divided into departments, and all users are assigned roles, each with different permissions for using the application.
+        There is only one Admin and one Director. Each department has one Supervisor.</p>
+</div>
+<div class="m-5">
+    <h5 class="m-2">2. Roles</h5>
+    <p class="ms-4 mt-3"><span class="fw-bold">Admin</span> - Can do everything including the management roles and users</p>
+    <p class="ms-4 mt-3"><span class="fw-bold">Director</span> - Can see everything and manage the attendance of all employees from all departments.</p>
+    <p class="ms-4 mt-3"><span class="fw-bold">Supervisor</span> - Can see all departments but cannot see employees from other departments except their own. 
+        Can view and manage attendance only for employees within their own department.</p>
+    <p class="ms-4 mt-3"><span class="fw-bold">Worker</span> - Can only view and record their own attendance and does not have editing rights.</p>
+</div>
+<div class="m-5">
+    <h5 class="m-2">3. Login</h5>
+    <p class="ms-4 mt-3">Here you have access credentials for the roles Director, Supervisor and Worker, and you can do everything within their permissions. 
+        Unfortunately, I cannot provide login credentials for the Admin role, as its permissions affect the overall functionality of the application.</p>
+    <p class="ms-4 mt-3"><span class="fw-bold">Director</span></p>
+    <p class="ms-4 mt-3"><span class="fw-bold">Supervisor</span></p>
+    <p class="ms-4 mt-3"><span class="fw-bold">Worker</span></p>
+</div>
+<div class="m-5">
+    <p class="fw-bold ms-2">Thank you for visiting this website.</p>
+</div>
+
