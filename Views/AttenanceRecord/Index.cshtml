@@ -56,10 +56,22 @@
                 <div class="border border-1 border-dark p-3 att-card">
                     <h4 class="text-center mt-2">Attenance</h4>
                     <div class="my-4 border border-dark border-1 p-3 text-center" style="border-radius: 40px; background-color: #9fcab2; max-width: 100%; overflow: hidden;">
-                        <form>
-                            <div class="d-flex flex-row gap-2">
-                                <a class="btn btn-warning flex-fill" style="border-radius: 20px;">Check-In</a>
-                                <a class="btn btn-danger flex-fill" style="border-radius: 20px;">Check-Out</a>
+                        <form method="post" asp-action="RecordAttendance">
+                            <div class="d-flex flex-row gap-2 w-100">
+                                <div class="flex-fill">
+                                    <form method="post" asp-action="RecordAttendance" style="margin: 0; width: 100%; display: flex;">
+                                        <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+                                        <input type="hidden" name="AttenanceType" value="AttenanceIn" />
+                                        <button class="btn btn-warning w-100" style="border-radius: 20px; height: 42px;">Check-In</button>
+                                    </form>
+                                </div>
+                                <div class="flex-fill">
+                                    <form method="post" asp-action="RecordAttendance" style="margin: 0; width: 100%; display: flex;">
+                                        <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+                                        <input type="hidden" name="AttenanceType" value="AttenanceOut" />
+                                        <button class="btn btn-danger w-100" style="border-radius: 20px; height: 42px;">Check-Out</>
+                                    </form>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -69,10 +81,22 @@
                 <div class="border border-1 border-dark p-3 att-card">
                     <h4 class="text-center mt-2">Doctor</h4>
                     <div class="my-4 border border-dark border-1 p-3 text-center" style="border-radius: 40px; background-color: #9fcab2; max-width: 100%; overflow: hidden;">
-                        <form>
-                            <div class="d-flex flex-row gap-2">
-                                <a class="btn btn-warning flex-fill" style="border-radius: 20px;">Check-In</a>
-                                <a class="btn btn-danger flex-fill" style="border-radius: 20px;">Check-Out</a>
+                        <form method="post" asp-action="RecordAttendance">
+                            <div class="d-flex flex-row gap-2 w-100">
+                                <div class="flex-fill">
+                                    <form method="post" asp-action="RecordAttendance" style="margin: 0; width: 100%; display: flex;">
+                                        <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+                                        <input type="hidden" name="AttenanceType" value="DoctorIn" />
+                                        <button class="btn btn-warning w-100" style="border-radius: 20px; height: 42px;">Check-In</button>
+                                    </form>
+                                </div>
+                                <div class="flex-fill">
+                                    <form method="post" asp-action="RecordAttendance" style="margin: 0; width: 100%; display: flex;">
+                                        <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+                                        <input type="hidden" name="AttenanceType" value="DoctorOut" />
+                                        <button class="btn btn-danger w-100" style="border-radius: 20px; height: 42px;">Check-Out</button>
+                                    </form>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -82,10 +106,22 @@
                 <div class="border border-1 border-dark p-3 att-card">
                     <h4 class="text-center mt-2">Vacation</h4>
                     <div class="my-4 border border-dark border-1 p-3 text-center" style="border-radius: 40px; background-color: #9fcab2; max-width: 100%; overflow: hidden;">
-                        <form>
-                            <div class="d-flex flex-row gap-2">
-                                <a class="btn btn-warning flex-fill" style="border-radius: 20px;">Check-In</a>
-                                <a class="btn btn-danger flex-fill" style="border-radius: 20px;">Check-Out</a>
+                        <form method="post" asp-action="RecordAttendance">
+                            <div class="d-flex flex-row gap-2 w-100">
+                                <div class="flex-fill">
+                                    <form method="post" asp-action="RecordAttendance" style="margin: 0; width: 100%; display: flex;">
+                                        <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+                                        <input type="hidden" name="AttenanceType" value="IsVacationOn" />
+                                        <button class="btn btn-warning w-100" style="border-radius: 20px; height: 42px;">Check-In</button>
+                                    </form>
+                                </div>
+                                <div class="flex-fill">
+                                    <form method="post" asp-action="RecordAttendance" style="margin: 0; width: 100%; display: flex;">
+                                        <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+                                        <input type="hidden" name="AttenanceType" value="IsVacationOff" />
+                                        <button class="btn btn-danger w-100" style="border-radius: 20px; height: 42px;">Check-Out</button>
+                                    </form>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -95,12 +131,30 @@
                 <div class="border border-1 border-dark p-3 att-card">
                     <h4 class="text-center mt-2">Sick Leave</h4>
                     <div class="my-4 border border-dark border-1 p-3 text-center" style="border-radius: 40px; background-color: #9fcab2; max-width: 100%; overflow: hidden;">
-                        <form>
-                            <div class="d-flex flex-row gap-2">
-                                <a class="btn btn-warning flex-fill" style="border-radius: 20px;">Check-In</a>
-                                <a class="btn btn-danger flex-fill" style="border-radius: 20px;">Check-Out</a>
+                            <div class="d-flex flex-row gap-2 w-100">
+                                <div class="flex-fill">
+                                    <form method="post" asp-action="RecordAttendance" style="margin: 0; width: 100%; display: flex;">
+                                        <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+                                        <input type="hidden" name="AttenanceType" value="IsSickLeaveOn" />
+                                        <button type="submit"
+                                            class="btn btn-warning w-100"
+                                            style="border-radius: 20px; height: 42px;">
+                                            Check-In
+                                        </button>
+                                    </form>
+                                </div>  
+                                <div class="flex-fill">
+                                    <form method="post" asp-action="RecordAttendance" style="margin: 0; width: 100%; display: flex;">
+                                        <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+                                        <input type="hidden" name="AttenanceType" value="IsSickLeaveOff" />
+                                        <button type="submit"
+                                            class="btn btn-danger w-100"
+                                            style="border-radius: 20px; height: 42px;">
+                                            Check-Out
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
