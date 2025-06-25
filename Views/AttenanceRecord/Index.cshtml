@@ -3,6 +3,16 @@
 
 <div class="container">
     <h1 class="text-center my-5">Attenance record</h1>
+    @if (Model.EmployeeId > 0)
+    {
+        var selectedEmp = Model.Employees.FirstOrDefault(e => e.Id == Model.EmployeeId);
+        if (selectedEmp != null)
+        {
+                <div class="alert alert-success text-center mb-4">
+                    Selected employee: <strong>@selectedEmp.FirsName @selectedEmp.LastName</strong>
+                </div>
+        }
+    }
     <div class="border border-1 border-dark p-3 att-card mb-4">
         <form method="post" asp-action="Index">
             <div class="row ms-5 me-5">
