@@ -54,3 +54,8 @@ th, td {
         padding: 0.2rem 0.3rem;
     }
 }
+.att-card {
+    border-radius: 10px;
+    background-image: linear-gradient(to top right, #f8f9fa, #bcd9c6);
+}
+
