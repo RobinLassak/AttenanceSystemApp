@@ -17,6 +17,7 @@ builder.Services.AddDbContext<AttenanceDbContext>(options =>
 builder.Services.AddHttpClient<PublicHolidayService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<AttenanceRecordService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
