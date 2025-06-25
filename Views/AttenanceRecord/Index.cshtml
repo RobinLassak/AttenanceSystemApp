@@ -2,27 +2,33 @@
 @model AttenanceRecordViewModel
 
 <div class="container">
-	<h1 class="text-center my-5">Attenance record</h1>
+    <h1 class="text-center my-5">Attenance record</h1>
     <div class="border border-1 border-dark p-3 att-card mb-4">
-        <form method="post" asp-action="SelectEmployee">
-                <div class="row ms-5 me-5">
-                    <div class="col-4">
-                        <div class="mb-3">
-                            <label for="DepartmentId" class="mb-2">Department:</label>
-                            <select id="DepartmentId" name="DepartmentId" class="form-select">
-                                @foreach (var dept in Model.Departments)
-                                {
-                                    <option value="@dept.Id">@dept.Name</option>
-                                }
-                            </select>
-                        </div>
+        <form method="post" asp-action="Index">
+            <div class="row ms-5 me-5">
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label for="DepartmentId" class="mb-2">Department:</label>
+                        <select id="DepartmentId" name="DepartmentId" class="form-select">
+                            <option value="0" selected="@(Model.DepartmentId == 0 ? "selected" : null)"> -- Všechna oddělení -- </option>
+                            @foreach (var dept in Model.Departments)
+                            {
+                                <option value="@dept.Id" selected="@(Model.DepartmentId == dept.Id ? "selected" : null)">
+                                    @dept.Name
+                                 </option>
+                            }
+                        </select>
                     </div>
-                    <div class="col-4">
-                        <div class="mb-3">
-                            <label for="EmployeeId" class="mb-2">Employee:</label>
-                            <select id="EmployeeId" name="EmployeeId" class="form-select">
-                            <!-- Naplníš dynamicky -->
-                            </select>
+                </div>
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label for="EmployeeId" class="mb-2">Employee:</label>
+                        <select id="EmployeeId" name="EmployeeId" class="form-select">
+                            @foreach(var empl in Model.Employees)
+                            {
+                                    <option value="@empl.Id">@empl.FirsName @empl.LastName</option>
+                            }
+                        </select>
                         </div>
                     </div>
                     <div class="col-4">
@@ -91,3 +97,32 @@
         </div>
     </div>
 </div>
+<!--Ajax pro filtraci pracovniku podle oddeleni-->
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const departmentSelect = document.getElementById("DepartmentId");
+            const employeeSelect = document.getElementById("EmployeeId");
+
+            departmentSelect.addEventListener("change", function () {
+                const deptId = this.value;
+
+                fetch(`/AttenanceRecord/GetEmployeesByDepartment?departmentId=${deptId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        employeeSelect.innerHTML = '';
+                        data.forEach(emp => {
+                            const option = document.createElement("option");
+                            option.value = emp.id;
+                            option.textContent = emp.name;
+                            employeeSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Chyba při načítání zaměstnanců:", error);
+                    });
+            });
+        });
+    </script>
+}
+

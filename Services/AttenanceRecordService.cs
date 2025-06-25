@@ -1,4 +1,7 @@
-﻿namespace AttenanceSystemApp.Services
+﻿using AttenanceSystemApp.DTO;
+using AttenanceSystemApp.Models;
+
+namespace AttenanceSystemApp.Services
 {
     public class AttenanceRecordService
     {
@@ -7,6 +10,5 @@
         {
             _dbContext = dbContext;
         }
-        
     }
 }

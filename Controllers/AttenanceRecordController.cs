@@ -8,20 +8,54 @@ namespace AttenanceSystemApp.Controllers
     {
         AttenanceRecordService _attenanceRecordService;
         DepartmentService _departmentService;
-        public AttenanceRecordController(AttenanceRecordService attenanceRecordService, DepartmentService departmentService)
+        EmployeeService _employeeService;
+        public AttenanceRecordController(AttenanceRecordService attenanceRecordService, DepartmentService departmentService,
+            EmployeeService employeeService)
         {
             _attenanceRecordService = attenanceRecordService;
             _departmentService = departmentService;
+            _employeeService = employeeService;
         }
         //Ziskani Vsech oddeleni
         public IActionResult Index()
         {
             var departments = _departmentService.GetAll();
+            var employees = _employeeService.GetAll();
             var model = new AttenanceRecordViewModel
             {
-                Departments = departments
+                Departments = departments,
+                Employees = employees,
             };
             return View(model);
+        }
+        [HttpPost]
+        public IActionResult Index(AttenanceRecordViewModel model)
+        {
+            var departments = _departmentService.GetAll();
+            var employees = model.DepartmentId > 0
+                ? _employeeService.GetEmployeesByDepartmentId(model.DepartmentId).ToList()
+                : _employeeService.GetAll();
+
+            model.Departments = departments;
+            model.Employees = employees;
+
+            return View(model);
+        }
+        //Metoda pro filtraci pracovniku podle oddeleni
+        [HttpGet]
+        public JsonResult GetEmployeesByDepartment(int departmentId)
+        {
+            var employees = departmentId > 0
+                ? _employeeService.GetEmployeesByDepartmentId(departmentId)
+                : _employeeService.GetAll();
+
+            var result = employees.Select(e => new
+            {
+                id = e.Id,
+                name = $"{e.FirsName} {e.LastName}"
+            });
+
+            return Json(result);
         }
     }
 }
