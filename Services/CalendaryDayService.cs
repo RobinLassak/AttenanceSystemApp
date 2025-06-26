@@ -38,7 +38,13 @@ namespace AttenanceSystemApp.Services
                 {
                     var record = records.FirstOrDefault(r => r.EmployeeId == emp.Id && r.Date.Date == date.Date);
 
-                    result.Add(new CalendaryDayDTO
+                    TimeSpan? worked = null;
+                    if (record?.AttenanceIn != null && record?.AttenanceOut != null)
+                    {
+                        worked = record?.AttenanceOut - record?.AttenanceIn;
+                    }
+
+                        result.Add(new CalendaryDayDTO
                     {
                         Date = date,
                         DayType = holiday?.Type.ToString() ?? DayType.Workday.ToString(),
@@ -52,8 +58,11 @@ namespace AttenanceSystemApp.Services
                         SmokeIn = record?.SmokeIn?.ToString(@"hh\:mm"),
                         SmokeOut = record?.SmokeOut?.ToString(@"hh\:mm"),
                         IsVacation = record?.IsVacation ?? false,
-                        IsSickLeave = record?.IsSickLeave ?? false
-                    });
+                        IsSickLeave = record?.IsSickLeave ?? false,
+                        WorkedHours = worked.HasValue ? $"{(int)worked.Value.TotalHours:D2}:{worked.Value.Minutes:D2}" : "0",
+
+
+                        });
                 }
             }
 
@@ -91,6 +100,12 @@ namespace AttenanceSystemApp.Services
                 var holiday = calendarDays.FirstOrDefault(cd => cd.Date.Date == date.Date);
                 var record = records.FirstOrDefault(r => r.Date.Date == date.Date);
 
+                TimeSpan? worked = null;
+                if (record?.AttenanceIn != null && record?.AttenanceOut != null)
+                {
+                    worked = record?.AttenanceOut - record?.AttenanceIn;
+                }
+
                 result.Add(new CalendaryDayDTO
                 {
                     Date = date,
@@ -106,7 +121,8 @@ namespace AttenanceSystemApp.Services
                     SmokeIn = record?.SmokeIn?.ToString(@"hh\:mm"),
                     SmokeOut = record?.SmokeOut?.ToString(@"hh\:mm"),
                     IsVacation = record?.IsVacation ?? false,
-                    IsSickLeave = record?.IsSickLeave ?? false
+                    IsSickLeave = record?.IsSickLeave ?? false,
+                    WorkedHours = worked.HasValue ? $"{(int)worked.Value.TotalHours:D2}:{worked.Value.Minutes:D2}" : "0"
                 });
             }
 
