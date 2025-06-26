@@ -8,9 +8,11 @@ namespace AttenanceSystemApp.Controllers
     public class CalendaryController : Controller
     {
         private readonly PublicHolidayService _publicHolidayService;
-        public CalendaryController(PublicHolidayService publicHolidayService)
+        private readonly CalendaryDayService _calendaryDayService;
+        public CalendaryController(PublicHolidayService publicHolidayService, CalendaryDayService calendaryDayService)
         {
             _publicHolidayService = publicHolidayService;
+            _calendaryDayService = calendaryDayService;
         }
 
         public async Task<IActionResult> Index(int? year, int? month, string countryCode)
@@ -24,7 +26,7 @@ namespace AttenanceSystemApp.Controllers
             var calendarDays = await _publicHolidayService.GetMonthCalendarAsync(selectedYear, selectedMonth, country);
 
             // Sestavení ViewModelu
-            var model = new CalendarViewModel
+            var model = new CalendarWithAttenanceViewModel
             {
                 SelectedYear = selectedYear,
                 SelectedMonth = selectedMonth,
@@ -39,6 +41,23 @@ namespace AttenanceSystemApp.Controllers
             };
 
             return View(model);
+        }
+        //Ziskani kalendare s daty dochazky
+        [HttpGet]
+        public async Task<IActionResult> GetCalendarWithAttendance(int year, int month)
+        {
+            var calendarDays = await _calendaryDayService.GetCalendarWithAttendance(year, month);
+            var model = new CalendarWithAttenanceViewModel
+            {
+                SelectedYear = year,
+                SelectedMonth = month,
+                AvailableYears = Enumerable.Range(DateTime.Now.Year - 5, 11).ToList(),
+                AvailableMonths = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames
+            .Where(m => !string.IsNullOrWhiteSpace(m))
+            .ToList(),
+                CalendarDays = calendarDays
+            };
+            return View("Index", model);
         }
     }
 }

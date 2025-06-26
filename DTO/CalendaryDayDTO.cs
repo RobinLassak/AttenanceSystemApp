@@ -4,8 +4,10 @@
     {
         public DateTime Date { get; set; }
         public string DayName { get; set; }
-        public string DayType { get; set; }
+        public string DayType { get; set; } = string.Empty;
         public string? HolidayName { get; set; }
+
+        public string EmployeeName { get; set; }
 
         public string? AttenanceIn { get; set; }
         public string? AttenanceOut { get; set; }

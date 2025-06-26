@@ -1,9 +1,9 @@
-﻿@model AttenanceSystemApp.ViewModels.CalendarViewModel
+﻿@model AttenanceSystemApp.ViewModels.CalendarWithAttenanceViewModel
 
 <div class="container text-center">
     <h1 class="my-5">Calendar of attenance</h1>
 
-    <form asp-controller="Calendary" asp-action="Index" method="get" class="row justify-content-center mb-4">
+    <form asp-controller="Calendary" asp-action="GetCalendarWithAttendance" method="get" class="row justify-content-center mb-4">
         <div class="col-md-2">
             <label for="year" class="form-label">Year</label>
             <select id="year" name="year" class="form-select">
@@ -23,7 +23,6 @@
                 }
             </select>
         </div>
-        <input type="hidden" name="countryCode" value="CZ" />
         <div class="col-md-2 d-flex align-items-end">
             <button type="submit" class="btn btn-warning w-100">Zobrazit</button>
         </div>
@@ -31,57 +30,65 @@
 
     <div class="table-responsive">
         <table class="table table-success table-striped">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Day</th>
-                <th colspan="2">Attendance</th>
-                <th colspan="2">Doctor</th>
-                <th colspan="2">Smoke</th>
-                <th>Vacation</th>
-                <th>Sick Leave</th>
-                <th>Worked hours</th>
-            </tr>
-            <tr>
-                <th colspan="2"></th>
-                <th>In</th>
-                <th>Out</th>
-                <th>In</th>
-                <th>Out</th>
-                <th>In</th>
-                <th>Out</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-                @if (Model.Workdays.Any())
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Day</th>
+                    <th>Employee</th>
+                    <th colspan="2">Attendance</th>
+                    <th colspan="2">Doctor</th>
+                    <th>Vacation</th>
+                    <th>Sick Leave</th>
+                    <th>Worked hours</th>
+                </tr>
+                <tr>
+                    <th colspan="2"></th>
+                    <th></th>
+                    <th>In</th>
+                    <th>Out</th>
+                    <th>In</th>
+                    <th>Out</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.CalendarDays.Any())
                 {
-                    foreach (var day in Model.Workdays)
+                    foreach (var group in Model.CalendarDays.GroupBy(x => x.Date.Date).OrderBy(x => x.Key))
                     {
-                                    <tr>
-                                        <td>@day.ToString("dd. MM.")</td>
-                                        <td>@day.ToString("dddd")</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>                                      
-                                    </tr>
+                                <tr class="table-secondary">
+                                    <td>@group.Key.ToString("dd. MM.")</td>
+                                    <td>@group.Key.ToString("dddd")</td>
+                                    <td colspan="8"></td>
+                                </tr>
+
+                        foreach (var record in group)
+                        {
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>@record.EmployeeName</td>
+                                            <td>@record.AttenanceIn</td>
+                                            <td>@record.AttenanceOut</td>
+                                            <td>@record.DoctorIn</td>
+                                            <td>@record.DoctorOut</td>
+                                            <td>@(record.IsVacation ? "YES" : "NO")</td>
+                                            <td>@(record.IsSickLeave ? "YES" : "NO")</td>
+                                            <td></td> <!-- Worked hours can be calculated later -->
+                                        </tr>
+                        }
                     }
                 }
                 else
                 {
                         <tr>
-                            <td colspan="3">Work days not found.</td>
+                            <td colspan="10">No attendance data found.</td>
                         </tr>
                 }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     </div>
 </div>
+
