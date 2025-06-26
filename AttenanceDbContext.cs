@@ -1,9 +1,11 @@
 ﻿using AttenanceSystemApp.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity;
 
 namespace AttenanceSystemApp
 {
-    public class AttenanceDbContext : DbContext
+    public class AttenanceDbContext : IdentityDbContext<AppUser>
     {
         public AttenanceDbContext(DbContextOptions<AttenanceDbContext> options)
             :base(options) { }
