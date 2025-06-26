@@ -12,5 +12,6 @@ namespace AttenanceSystemApp
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<AttenanceRecord> AttenanceRecords { get; set; }
+        public DbSet<CalendaryDay> CalendaryDays { get; set; }
     }
 }
