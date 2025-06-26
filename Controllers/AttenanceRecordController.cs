@@ -1,4 +1,5 @@
-﻿using AttenanceSystemApp.Services;
+﻿using AttenanceSystemApp.DTO;
+using AttenanceSystemApp.Services;
 using AttenanceSystemApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,6 +57,27 @@ namespace AttenanceSystemApp.Controllers
             });
 
             return Json(result);
+        }
+        //Ukladani dochazky do databaze
+        [HttpPost]
+        public async Task<IActionResult> RecordAttenance(AttenanceRecordDTO newRecord)
+        {
+            if(newRecord.EmployeeId == 0)
+            {
+                TempData["ErrorMessage"] = "Please select employee before record attenance";
+                return RedirectToAction("Index");
+            }
+            try
+            {
+                await _attenanceRecordService.RecordAttenance(newRecord);
+                TempData["SuccessMessage"] = "Attendance recorded successfully.";
+            }
+            catch (InvalidOperationException e)
+            {
+
+                TempData["ErrorMessage"] = e.Message;
+            }
+            return RedirectToAction("Index", new {EmployeeId = newRecord.EmployeeId });
         }
     }
 }

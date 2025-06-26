@@ -3,7 +3,7 @@
     public class AttenanceRecordDTO
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public TimeSpan? AttenanceIn { get; set; }
         public TimeSpan? AttenanceOut { get; set; }
         public TimeSpan? DoctorIn { get; set; }
@@ -15,5 +15,6 @@
         public TimeSpan? WorkedHours { get; set; }
         public int EmployeeId { get; set; }
         public EmployeeDTO Employee { get; set; }
+        public string AttenanceType { get; set; }
     }
 }
