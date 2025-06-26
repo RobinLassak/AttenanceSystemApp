@@ -42,7 +42,7 @@ namespace AttenanceSystemApp.Controllers
 
             return View(model);
         }
-        //Ziskani kalendare s daty dochazky
+        //Ziskani kalendare s daty dochazky vsech zamestnancu
         [HttpGet]
         public async Task<IActionResult> GetCalendarWithAttendance(int year, int month)
         {
@@ -58,6 +58,25 @@ namespace AttenanceSystemApp.Controllers
                 CalendarDays = calendarDays
             };
             return View("Index", model);
+        }
+        //Ziskani kalendare s daty dochazky jednoho zamestnance
+        [HttpGet]
+        public async Task<IActionResult> GetOneEmployeeAttenance(int? employeeId, int year, int month)
+        {
+            var calendarDays = await _calendaryDayService.GetOneEmployeeAttenance(year, month, employeeId);
+
+            var model = new CalendarWithAttenanceViewModel
+            {
+                SelectedYear = year,
+                SelectedMonth = month,
+                AvailableYears = Enumerable.Range(DateTime.Now.Year - 5, 11).ToList(),
+                AvailableMonths = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames
+                    .Where(m => !string.IsNullOrWhiteSpace(m))
+                    .ToList(),
+                CalendarDays = calendarDays
+            };
+
+            return View("ForOneEmployee", model);
         }
     }
 }

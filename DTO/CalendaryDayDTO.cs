@@ -8,6 +8,7 @@
         public string? HolidayName { get; set; }
 
         public string EmployeeName { get; set; }
+        public int? EmployeeId { get; set; }
 
         public string? AttenanceIn { get; set; }
         public string? AttenanceOut { get; set; }

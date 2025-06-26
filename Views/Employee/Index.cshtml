@@ -27,7 +27,9 @@
 						<td>@item.HourlyRate</td>
 						<td>@item.Department?.Name</td>
 						<td>
-							<a class="btn btn-warning btn-sm" asp-controller="Calendary" asp-action="Index">Show</a>
+							<a class="btn btn-warning btn-sm" asp-controller="Calendary" asp-action="GetOneEmployeeAttenance"
+								asp-route-employeeId="@item.Id" asp-route-year="@DateTime.Now.Year"
+								asp-route-month="@DateTime.Now.Month">Show</a>
 						</td>
 						<td>
 							<div class="d-flex align-items-center justify-content-center gap-2">
