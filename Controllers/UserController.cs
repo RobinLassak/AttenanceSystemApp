@@ -17,11 +17,17 @@ namespace AttenanceSystemApp.Controllers
             _passwordHasher = passwordHasher;
             _passwordValidator = passwordValidator;
         }
+        //Zobrazeni uzivatelu
         public IActionResult Index()
         {
             return View(_userManager.Users);
         }
         //Vytvoreni noveho uzivatele
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> CreateAsync(UserViewModel newUser)
         {
