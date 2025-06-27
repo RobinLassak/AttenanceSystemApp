@@ -48,7 +48,11 @@ namespace AttenanceSystemApp.Controllers
         {
             var employeeToEdit = await _employeeService.GetByIdAsync(id);
             var departments = _employeeService.GetAllDepartments();
+            var users = _userManager.Users
+                .Where(u => u.EmployeeId == null || u.EmployeeId == employeeToEdit.Id)
+                .ToList();
             ViewBag.Departments = new SelectList(departments, "Id", "Name");
+            ViewBag.Users = new SelectList(users, "Id", "UserName");
             return View(employeeToEdit);
         }
         [HttpPost]

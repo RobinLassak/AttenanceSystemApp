@@ -66,7 +66,37 @@ namespace AttenanceSystemApp.Services
 
         internal async Task UpdateAsync(EmployeeDTO employeeDTO, int id)
         {
-            _dbContext.Update(DtoToModel(employeeDTO));
+            // 1. Najdi existujícího zaměstnance
+            var existingEmployee = await _dbContext.Employees
+                .Include(e => e.User)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (existingEmployee == null)
+                throw new Exception("Zaměstnanec nenalezen");
+
+            // 2. Aktualizuj základní údaje
+            existingEmployee.FirsName = employeeDTO.FirsName;
+            existingEmployee.LastName = employeeDTO.LastName;
+            existingEmployee.HourlyRate = employeeDTO.HourlyRate;
+            existingEmployee.DepartmentId = employeeDTO.DepartmentId;
+
+            // 3. Pokud měl přiřazeného uživatele a ten se mění, odpoj ho
+            if (existingEmployee.User != null && existingEmployee.User.Id != employeeDTO.UserId)
+            {
+                existingEmployee.User.EmployeeId = null;
+            }
+
+            // 4. Najdi a přiřaď nového usera
+            if (!string.IsNullOrEmpty(employeeDTO.UserId))
+            {
+                var newUser = await _dbContext.Users.FindAsync(employeeDTO.UserId);
+                if (newUser != null)
+                {
+                    newUser.EmployeeId = existingEmployee.Id;
+                }
+            }
+
+            // 5. Ulož vše
             await _dbContext.SaveChangesAsync();
         }
         //Smazani zamestnance
