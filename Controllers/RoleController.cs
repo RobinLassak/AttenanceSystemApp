@@ -1,6 +1,7 @@
 ﻿using AttenanceSystemApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AttenanceSystemApp.Controllers
 {
@@ -76,13 +77,25 @@ namespace AttenanceSystemApp.Controllers
         public async Task<IActionResult> Edit(string id)
         {
             IdentityRole roleToEdit = await _roleManager.FindByIdAsync(id);
+
             List<AppUser> members = new List<AppUser>();
             List<AppUser> nonMembers = new List<AppUser>();
-            foreach (var user in _userManager.Users)
+
+            var allUsers = await _userManager.Users.ToListAsync();
+
+            foreach (var user in allUsers)
             {
-                var list = await _userManager.IsInRoleAsync(user, roleToEdit.Name) ? members : nonMembers;
-                list.Add(user);
+                var isInRole = await _userManager.IsInRoleAsync(user, roleToEdit.Name);
+                if (isInRole)
+                {
+                    members.Add(user);
+                }
+                else
+                {
+                    nonMembers.Add(user);
+                }
             }
+
             return View(new RoleState
             {
                 Members = members,

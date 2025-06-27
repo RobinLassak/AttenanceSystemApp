@@ -1,0 +1,79 @@
+﻿@model RoleState
+
+<div class="container text-center">
+    <h1 class="my-5">Edit Role</h1>
+
+    <a asp-action="Index" class="btn btn-secondary text-white mb-4">Back</a>
+
+    <form method="post">
+        <input type="hidden" name="roleName" value="@Model.Role.Name"/>
+        <input type="hidden" name="roleId" value="@Model.Role.Id"/>
+
+        <!-- Přidání uživatelů -->
+        <h2 class="my-3">Add to @Model.Role.Name</h2>
+        <div class="table-responsive">
+            <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name of user</th>
+                    <th scope="col">Add</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @if (!Model.NonMembers.Any())
+                    {
+                                <tr><td colspan="2">All Users Are Members</td></tr>
+                    }
+                    else
+                    {
+                        @foreach (AppUser user in Model.NonMembers)
+                        {
+                                                <tr>
+                                                    <td>@user.UserName</td>
+                                                    <td>
+                                                        <input type="checkbox" name="AddIds" value="@user.Id" />
+                                                    </td>
+                                                </tr>
+                        }
+                    }
+            </tbody>
+        </table>
+        </div>
+
+        <!-- Odebrání uživatelů -->
+        <h2 class="my-3">Remove from @Model.Role.Name</h2>
+        <div class="table-responsive">
+            <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name of user</th>
+                    <th scope="col">Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @if (!Model.Members.Any())
+                    {
+                                <tr><td colspan="2">No Users Are Members</td></tr>
+                    }
+                    else
+                    {
+                        @foreach (AppUser user in Model.Members)
+                        {
+                                                <tr>
+                                                    <td>@user.UserName</td>
+                                                    <td>
+                                                        <input type="checkbox" name="DeleteIds" value="@user.Id" />
+                                                    </td>
+                                                </tr>
+                        }
+                    }
+            </tbody>
+        </table>
+        </div>
+
+        <button type="submit" class="btn btn-warning my-4">Save</button>
+    </form>
+</div>
+
+
+
