@@ -11,7 +11,8 @@
 				<th scope="col">ID</th>
 				<th scope="col">First name</th>
 				<th scope="col">Last Name</th>
-				<th scope="col">Hourly rate</th>
+				<th scope="col">Rate</th>
+				<th scope="col">Role</th>
 				<th scope="col">Department</th>
 				<th scope="col">Attenance</th>
 				<th scope="col">Action</th>
@@ -25,6 +26,7 @@
 						<td>@item.FirsName</td>
 						<td>@item.LastName</td>
 						<td>@item.HourlyRate</td>
+						<td>@item.UserRole</td>
 						<td>@item.Department?.Name</td>
 						<td>
 							<a class="btn btn-warning btn-sm" asp-controller="Calendary" asp-action="GetOneEmployeeAttenance"

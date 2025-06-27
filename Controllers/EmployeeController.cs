@@ -1,5 +1,7 @@
 ﻿using AttenanceSystemApp.DTO;
+using AttenanceSystemApp.Models;
 using AttenanceSystemApp.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +11,11 @@ namespace AttenanceSystemApp.Controllers
     public class EmployeeController : Controller
     {
         private readonly EmployeeService _employeeService;
-        public EmployeeController(EmployeeService employeeService)
+        UserManager<AppUser> _userManager;
+        public EmployeeController(EmployeeService employeeService, UserManager<AppUser> userManager)
         {
             _employeeService = employeeService;
+            _userManager = userManager;
         }
         //Zobrazeni vsech zamestnancu
         public IActionResult Index()
@@ -25,6 +29,11 @@ namespace AttenanceSystemApp.Controllers
         {
             var departments = _employeeService.GetAllDepartments();
             ViewBag.Departments = new SelectList(departments, "Id", "Name");
+
+            var unassignedUsers = _userManager.Users
+                .Where(u => u.EmployeeId == null)
+                .ToList();
+            ViewBag.Users = new SelectList(unassignedUsers, "Id", "UserName");
             return View();
         }
         [HttpPost]

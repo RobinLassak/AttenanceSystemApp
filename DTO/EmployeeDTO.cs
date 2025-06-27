@@ -10,5 +10,7 @@ namespace AttenanceSystemApp.DTO
         public int DepartmentId { get; set; }
         public int HourlyRate { get; set; }
         public Department Department { get; set; }
+        public string? UserId { get; set; }
+        public string? UserRole { get; set; }
     }
 }

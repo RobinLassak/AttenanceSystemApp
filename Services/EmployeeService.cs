@@ -1,5 +1,6 @@
 ﻿using AttenanceSystemApp.DTO;
 using AttenanceSystemApp.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AttenanceSystemApp.Services
@@ -7,15 +8,18 @@ namespace AttenanceSystemApp.Services
     public class EmployeeService
     {
         private readonly AttenanceDbContext _dbContext;
-        public EmployeeService(AttenanceDbContext dbContext)
+        UserManager<AppUser> _userManager;
+        public EmployeeService(AttenanceDbContext dbContext, UserManager<AppUser> userManager)
         {
             _dbContext = dbContext;
+            _userManager = userManager;
         }
         //Vyobrazeni vsech zamestnancu
         public List<EmployeeDTO> GetAll()
         {
             var allEmployees = _dbContext.Employees
                 .Include(e => e.Department)
+                .Include(e => e.User)
                 .ToList();
             var employeesDtos = new List<EmployeeDTO>();
             foreach (var employee in allEmployees)
@@ -37,6 +41,15 @@ namespace AttenanceSystemApp.Services
             Employee employeeToSave = DtoToModel(newEmployee);
             _dbContext.Employees.Add(employeeToSave);
             await _dbContext.SaveChangesAsync();
+            if (!string.IsNullOrEmpty(newEmployee.UserId))
+            {
+                var user = await _dbContext.Users.FindAsync(newEmployee.UserId);
+                if (user != null)
+                {
+                    user.EmployeeId = employeeToSave.Id;
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
         }
         public List<Department> GetAllDepartments()
         {
@@ -94,7 +107,7 @@ namespace AttenanceSystemApp.Services
         }
         private EmployeeDTO ModelToDto(Employee employee)
         {
-            return new EmployeeDTO()
+            var dto = new EmployeeDTO()
             {
                 Id = employee.Id,
                 FirsName = employee.FirsName,
@@ -102,7 +115,16 @@ namespace AttenanceSystemApp.Services
                 HourlyRate = employee.HourlyRate,
                 Department = employee.Department,
                 DepartmentId = employee.DepartmentId,
+                UserId = employee.User?.Id,
+                UserRole = null
             };
+            if (employee.User != null)
+            {
+                var roles = _userManager.GetRolesAsync(employee.User).Result;
+                dto.UserRole = roles.FirstOrDefault();
+            }
+
+            return dto;
         }
     }
 }
