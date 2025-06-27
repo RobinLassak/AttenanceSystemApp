@@ -16,14 +16,21 @@ namespace AttenanceSystemApp.Services
         }
         //Ziskani kalendare s daty dochazky vsech zamestnancu
         [HttpGet]
-        public async Task<List<CalendaryDayDTO>> GetCalendarWithAttendance(int year, int month)
+        public async Task<List<CalendaryDayDTO>> GetCalendarWithAttendance(int year, int month, int? departmentId = null, int? employeeId = null)
         {
             var daysInMonth = Enumerable.Range(1, DateTime.DaysInMonth(year, month))
                 .Select(day => new DateTime(year, month, day))
                 .ToList();
 
             var calendarDays = await _publicHolidayService.GetMonthCalendarAsync(year, month, "CZ");
-            var employees = await _dbContext.Employees.ToListAsync();
+            var employeesQuery = _dbContext.Employees.AsQueryable();
+
+            if (departmentId != null)
+            {
+                employeesQuery = employeesQuery.Where(e => e.DepartmentId == departmentId);
+            }
+
+            var employees = await employeesQuery.ToListAsync();
             var records = await _dbContext.AttenanceRecords
                 .Where(r => r.Date.Year == year && r.Date.Month == month)
                 .ToListAsync();

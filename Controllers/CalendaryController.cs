@@ -1,6 +1,8 @@
-﻿using AttenanceSystemApp.Models;
+﻿using AttenanceSystemApp.DTO;
+using AttenanceSystemApp.Models;
 using AttenanceSystemApp.Services;
 using AttenanceSystemApp.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AttenanceSystemApp.Controllers
@@ -9,10 +11,15 @@ namespace AttenanceSystemApp.Controllers
     {
         private readonly PublicHolidayService _publicHolidayService;
         private readonly CalendaryDayService _calendaryDayService;
-        public CalendaryController(PublicHolidayService publicHolidayService, CalendaryDayService calendaryDayService)
+        private readonly EmployeeService _employeeService;
+        private readonly UserManager<AppUser> _userManager;
+        public CalendaryController(PublicHolidayService publicHolidayService, CalendaryDayService calendaryDayService,
+            UserManager<AppUser> userManager, EmployeeService employeeService)
         {
             _publicHolidayService = publicHolidayService;
             _calendaryDayService = calendaryDayService;
+            _userManager = userManager;
+            _employeeService = employeeService;
         }
 
         public async Task<IActionResult> Index(int? year, int? month, string countryCode)
@@ -46,18 +53,58 @@ namespace AttenanceSystemApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCalendarWithAttendance(int year, int month)
         {
-            var calendarDays = await _calendaryDayService.GetCalendarWithAttendance(year, month);
-            var model = new CalendarWithAttenanceViewModel
+            int? departmentId = null;
+            int? employeeId = null;
+
+            var userId = _userManager.GetUserId(User);
+
+            var user = await _employeeService.GetUserWithEmployeeByIdAsync(userId);
+
+            if(user != null)
             {
-                SelectedYear = year,
-                SelectedMonth = month,
-                AvailableYears = Enumerable.Range(DateTime.Now.Year - 5, 11).ToList(),
-                AvailableMonths = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames
-            .Where(m => !string.IsNullOrWhiteSpace(m))
-            .ToList(),
-                CalendarDays = calendarDays
-            };
-            return View("Index", model);
+                if (user != null && await _userManager.IsInRoleAsync(user, "supervisor"))
+                {
+                    departmentId = user.Employee?.DepartmentId;
+                    Console.WriteLine($"Supervisor {user.UserName} - DepartmentId: {departmentId}");
+                }
+                else if (await _userManager.IsInRoleAsync(user, "worker"))
+                {
+                    employeeId = user.Employee?.Id;
+                    Console.WriteLine($"Worker {user.UserName} - EmployeeId: {employeeId}");
+                }
+            }
+
+            List<CalendaryDayDTO> calendarDays;
+
+            if (employeeId.HasValue)
+            {
+                // Worker
+                calendarDays = await _calendaryDayService.GetOneEmployeeAttenance(year, month, employeeId);
+                return View("ForOneEmployee", new CalendarWithAttenanceViewModel
+                {
+                    SelectedYear = year,
+                    SelectedMonth = month,
+                    AvailableYears = Enumerable.Range(DateTime.Now.Year - 5, 11).ToList(),
+                    AvailableMonths = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames
+                        .Where(m => !string.IsNullOrWhiteSpace(m)).ToList(),
+                    CalendarDays = calendarDays
+                });
+            }
+            else
+            {
+                // Supervisor nebo admin
+                calendarDays = await _calendaryDayService.GetCalendarWithAttendance(year, month, departmentId);
+
+                return View("Index", new CalendarWithAttenanceViewModel
+                {
+                    SelectedYear = year,
+                    SelectedMonth = month,
+                    AvailableYears = Enumerable.Range(DateTime.Now.Year - 5, 11).ToList(),
+                    AvailableMonths = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames
+                        .Where(m => !string.IsNullOrWhiteSpace(m)).ToList(),
+                    CalendarDays = calendarDays
+                });
+            }
         }
         //Ziskani kalendare s daty dochazky jednoho zamestnance
         [HttpGet]

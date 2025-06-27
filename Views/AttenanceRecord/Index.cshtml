@@ -5,24 +5,24 @@
     <h1 class="text-center my-5">Attenance record</h1>
     @if(TempData["SuccessMessage"] != null)
     {
-            <div class="alert alert-success text-center mb-4">
-                @TempData["SuccessMessage"]
-            </div>
+        <div class="alert alert-success text-center mb-4">
+            @TempData["SuccessMessage"]
+        </div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-                    <div class="alert alert-danger text-center mb-4">
-                    @TempData["ErrorMessage"]
-                </div>
+        <div class="alert alert-danger text-center mb-4">
+            @TempData["ErrorMessage"]
+        </div>
     }
     @if (Model.EmployeeId > 0)
     {
         var selectedEmp = Model.Employees.FirstOrDefault(e => e.Id == Model.EmployeeId);
         if (selectedEmp != null)
         {
-                <div class="alert alert-success text-center mb-4">
-                    Selected employee: <strong>@selectedEmp.FirsName @selectedEmp.LastName</strong>
-                </div>
+            <div class="alert alert-success text-center mb-4">
+                Selected employee: <strong>@selectedEmp.FirsName @selectedEmp.LastName</strong>
+            </div>
         }
     }
     <div class="border border-1 border-dark p-3 att-card mb-4 shadow-lg">
@@ -35,13 +35,13 @@
                             <option value="0" selected="@(Model.DepartmentId == 0 ? "selected" : null)"> -- Všechna oddělení -- </option>
                             @foreach (var dept in Model.Departments)
                             {
-                                <option value="@dept.Id" selected="@(Model.DepartmentId == dept.Id ? "selected" : null)">
+                                    <option value="@dept.Id" selected="@(Model.DepartmentId == dept.Id ? "selected" : null)">
                                     @dept.Name
-                                 </option>
+                                     </option>
                             }
                         </select>
                     </div>
-                </div>
+                </div> 
                 <div class="col-4">
                     <div class="mb-3">
                         <label for="EmployeeId" class="mb-2">Employee:</label>

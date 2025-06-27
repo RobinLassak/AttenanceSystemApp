@@ -18,8 +18,23 @@ namespace AttenanceSystemApp.Controllers
             _userManager = userManager;
         }
         //Zobrazeni vsech zamestnancu
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var userId = _userManager.GetUserId(User);
+            var user = await _employeeService.GetUserWithEmployeeByIdAsync(userId);
+
+            //Pro supervisora
+            if (user != null && await _userManager.IsInRoleAsync(user, "supervisor"))
+            {
+                var departmentId = user.Employee?.DepartmentId;
+                if (departmentId.HasValue)
+                {
+                    var departmentEmployees = _employeeService.GetEmployeesByDepartmentId(departmentId.Value);
+                    return View(departmentEmployees);
+                }
+            }
+
+            //Pro ostatni role
             var allEmployees = _employeeService.GetAll();
             return View(allEmployees);
         }

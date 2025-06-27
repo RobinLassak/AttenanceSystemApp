@@ -112,16 +112,15 @@ namespace AttenanceSystemApp.Services
         //Ziskani seznamu zamestnancu z kazdeho daneho oddeleni
         public IEnumerable<EmployeeDTO> GetEmployeesByDepartmentId(int id)
         {
-            var employees = _dbContext.Employees.Where(e => e.DepartmentId == id).ToList();
-            return employees.Select(e => new EmployeeDTO()
-            {
-                Id = e.Id,
-                FirsName = e.FirsName,
-                LastName = e.LastName,
-                HourlyRate = e.HourlyRate,
-                DepartmentId = e.DepartmentId,
+            var employees = _dbContext.Employees
+                .Include(e => e.Department)
+                .Include(e => e.User)
+                .Where(e => e.DepartmentId == id)
+                .ToList();
 
-            }).OrderBy(e => e.LastName);
+            return employees
+                .Select(e => ModelToDto(e))
+                .OrderBy(e => e.LastName);
         }
         //Pomocne metody
         private Employee DtoToModel(EmployeeDTO newEmployee)
@@ -155,6 +154,12 @@ namespace AttenanceSystemApp.Services
             }
 
             return dto;
+        }
+        public async Task<AppUser?> GetUserWithEmployeeByIdAsync(string userId)
+        {
+            return await _dbContext.Users
+                .Include(u => u.Employee)
+                .FirstOrDefaultAsync(u => u.Id == userId);
         }
     }
 }
