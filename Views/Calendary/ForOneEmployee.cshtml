@@ -4,9 +4,9 @@
     <h1 class="my-5">Attendance Calendar</h1>
 
     <form asp-controller="Calendary"
-          asp-action="GetOneEmployeeAttenance"
-          method="get"
-          class="row justify-content-center mb-4">
+    asp-action="GetOneEmployeeAttenance"
+    method="get"
+    class="row justify-content-center mb-4">
 
         <input type="hidden" name="employeeId" value="@Model.EmployeeId" />
 
@@ -15,7 +15,7 @@
             <select id="year" name="year" class="form-select">
                 @foreach (var year in Model.AvailableYears)
                 {
-                        <option value="@year" selected="@(year == Model.SelectedYear)">@year</option>
+                    <option value="@year" selected="@(year == Model.SelectedYear)">@year</option>
                 }
             </select>
         </div>
@@ -26,7 +26,7 @@
                 @for (int i = 0; i < Model.AvailableMonths.Count; i++)
                 {
                     var monthName = Model.AvailableMonths[i];
-                        <option value="@(i + 1)" selected="@(i + 1 == Model.SelectedMonth)">@monthName</option>
+                    <option value="@(i + 1)" selected="@(i + 1 == Model.SelectedMonth)">@monthName</option>
                 }
             </select>
         </div>
@@ -35,13 +35,17 @@
             <button type="submit" class="btn btn-warning w-100">Zobrazit</button>
         </div>
     </form>
-    
+
     <div class="table-responsive">
         <table class="table table-success table-striped">
             <thead>
                 <tr>
                     <th>Date</th>
                     <th>Day</th>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Director") || User.IsInRole("Supervisor")))
+                    {
+                        <th>Edit</th>
+                    }
                     <th colspan="2">Attendance</th>
                     <th colspan="2">Doctor</th>
                     <th>Vacation</th>
@@ -50,6 +54,10 @@
                 </tr>
                 <tr>
                     <th colspan="2"></th>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Director") || User.IsInRole("Supervisor")))
+                    {
+                        <th></th>
+                    }
                     <th>In</th>
                     <th>Out</th>
                     <th>In</th>
@@ -64,9 +72,15 @@
                 {
                     foreach (var record in Model.CalendarDays.OrderBy(x => x.Date))
                     {
-                                <tr>
-                                    <td>@record.Date.ToString("dd. MM.")</td>
-                                    <td>@record.Date.ToString("dddd")</td>
+                        <tr>
+                            <td>@record.Date.ToString("dd. MM.")</td>
+                            <td>@record.Date.ToString("dddd")</td>
+                            @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Director") || User.IsInRole("Supervisor")))
+                            {
+                                            <td>        
+                                               <a class="btn btn-warning btn-sm" asp-action="Edit">Edit</a>
+                                            </td>
+                            }        
                                     <td>@record.AttenanceIn</td>
                                     <td>@record.AttenanceOut</td>
                                     <td>@record.DoctorIn</td>
