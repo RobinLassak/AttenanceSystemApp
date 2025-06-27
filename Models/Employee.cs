@@ -8,5 +8,6 @@
         public int DepartmentId { get; set; }
         public int HourlyRate { get; set; }
         public Department Department { get; set; }
+        public virtual AppUser? User { get; set; }
     }
 }
