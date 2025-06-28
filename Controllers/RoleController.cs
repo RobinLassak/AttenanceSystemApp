@@ -79,11 +79,25 @@ namespace AttenanceSystemApp.Controllers
             return View(roleDetails);
         }
         //Editace role
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Director")]
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             IdentityRole roleToEdit = await _roleManager.FindByIdAsync(id);
+            if (roleToEdit == null)
+            {
+                return NotFound();
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            var isDirector = await _userManager.IsInRoleAsync(currentUser, "Director");
+
+            
+            if (isDirector && roleToEdit.Name == "Admin")
+            {
+                TempData["ErrorMessage"] = "The 'Admin' role cannot be modified by the director.";
+                return RedirectToAction("Index");
+            }
 
             List<AppUser> members = new List<AppUser>();
             List<AppUser> nonMembers = new List<AppUser>();
@@ -110,9 +124,19 @@ namespace AttenanceSystemApp.Controllers
                 Role = roleToEdit,
             });
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Director")]
         public async Task<IActionResult> EditAsync(RoleModification roleModification)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var isDirector = await _userManager.IsInRoleAsync(currentUser, "Director");
+
+            
+            if (isDirector && roleModification.RoleName == "Admin")
+            {
+                TempData["ErrorMessage"] = "The 'Admin' role cannot be modified by the director.";
+                return RedirectToAction("Index");
+            }
+
             if (ModelState.IsValid)
             {
                 foreach (string userId in roleModification.AddIds ?? new string[] { })

@@ -56,7 +56,7 @@ namespace AttenanceSystemApp.Controllers
             return View(newUser);
         }
         //Editace uzivatele
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Director")]
         [HttpGet]
         public async Task<IActionResult> EditAsync(string id)
         {
@@ -65,9 +65,21 @@ namespace AttenanceSystemApp.Controllers
             {
                 return View("NotFound");
             }
+            var targetUserRoles = await _userManager.GetRolesAsync(userToEdit);
+
+            
+            var currentUser = await _userManager.GetUserAsync(User);
+            var isDirector = await _userManager.IsInRoleAsync(currentUser, "Director");
+
+            
+            if (isDirector && targetUserRoles.Any(r => r == "Admin" || r == "Root"))
+            {
+                TempData["ErrorMessage"] = "You do not have permission to edit users Admin or Root.";
+                return RedirectToAction("Index");
+            }
             return View(userToEdit);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Director")]
         [HttpPost]
         public async Task<IActionResult> EditAsync(string id, string username, string email, string password)
         {
@@ -76,6 +88,18 @@ namespace AttenanceSystemApp.Controllers
             {
                 return View("NotFound");
             }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            var isDirector = await _userManager.IsInRoleAsync(currentUser, "Director");
+
+            var targetUserRoles = await _userManager.GetRolesAsync(userToEdit);
+
+            if (isDirector && targetUserRoles.Any(r => r == "Admin" || r == "Root"))
+            {
+                TempData["ErrorMessage"] = "The 'Admin' role cannot be modified by the director";
+                return RedirectToAction("Index");
+            }
+
             if (!string.IsNullOrEmpty(username))
             {
                 userToEdit.UserName = username;
