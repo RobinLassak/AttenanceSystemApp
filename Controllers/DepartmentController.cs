@@ -82,7 +82,7 @@ namespace AttenanceSystemApp.Controllers
 
             return View("DepartmentEmployees", viewModel);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Director")]
         public async Task<IActionResult> GetToDelete(int id)
         {
             var departmentDetails = await _departmentService.GetByIdAsync(id);

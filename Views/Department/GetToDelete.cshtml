@@ -4,6 +4,12 @@
 <div class="container text-center">
 	<h1 class="my-5">Delete department @Model.Name</h1>
 	<h4 class="my-5 text-danger">Do you really want to delete this department?</h4>
+	@if (TempData["ErrorMessage"] != null)
+	{
+					<div class="alert alert-danger text-center mb-4">
+						@TempData["ErrorMessage"]
+					</div>
+	}
 	<div class="table-responsive">
 		<table class="table table-success table-striped shadow">
 		<thead>
