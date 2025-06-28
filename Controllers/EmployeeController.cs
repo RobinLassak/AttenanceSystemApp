@@ -83,5 +83,11 @@ namespace AttenanceSystemApp.Controllers
             await _employeeService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public async Task<IActionResult> GetToDelete(int id)
+        {
+            var employeeDetails = await _employeeService.GetByIdAsync(id);
+            return View(employeeDetails);
+        }
     }
 }

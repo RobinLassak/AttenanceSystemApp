@@ -1,0 +1,38 @@
+﻿@using AttenanceSystemApp.DTO
+@model EmployeeDTO
+
+<div class="container text-center">
+	<h1 class="my-5">Delete employee @Model.FirsName @Model.LastName</h1>
+	<h4 class="my-5 text-danger">Do you really want to delete this employee?</h4>
+	<div class="table-responsive">
+		<table class="table table-success table-striped shadow">
+		<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">First name</th>
+				<th scope="col">Last Name</th>
+				<th scope="col">Rate</th>
+				<th scope="col">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+							<tr>
+						<th scope="row">@Model.Id</th>
+						<td>@Model.FirsName</td>
+						<td>@Model.LastName</td>
+						<td>@Model.HourlyRate</td>
+						<td>
+							<div class="d-flex align-items-center justify-content-center gap-2">
+								<form method="post">
+									<button type="submit" class="btn btn-danger btn-sm" asp-action="Delete" 
+									asp-route-id="@Model.Id">Delete</button>
+								</form>
+								<a asp-action="Index" class="btn btn-secondary btn-sm text-white">Back</a>
+							</div>
+						</td>
+					</tr>
+
+			</tbody>
+		</table>
+	</div>
+</div>
