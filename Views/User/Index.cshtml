@@ -2,6 +2,12 @@
 
 <div class="container text-center">
 	<h1 class="my-5">Users</h1>
+	@if (TempData["ErrorMessage"] != null)
+	{
+			<div class="alert alert-danger text-center mb-4">
+			@TempData["ErrorMessage"]
+			</div>
+	}
 	<div class="att-card border border-dark mb-4 shadow">
 		<h5 class="mt-4">Create new user</h5>
 		<a asp-action="Create" class="btn btn-warning mb-4 mt-2 text-center">Create</a>

@@ -1,10 +1,12 @@
 ﻿using AttenanceSystemApp.Models;
 using AttenanceSystemApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AttenanceSystemApp.Controllers
 {
+    [Authorize(Roles = "Admin, Director")]
     public class UserController : Controller
     {
         UserManager<AppUser> _userManager;
@@ -54,6 +56,7 @@ namespace AttenanceSystemApp.Controllers
             return View(newUser);
         }
         //Editace uzivatele
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> EditAsync(string id)
         {
@@ -64,6 +67,7 @@ namespace AttenanceSystemApp.Controllers
             }
             return View(userToEdit);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditAsync(string id, string username, string email, string password)
         {
@@ -119,6 +123,7 @@ namespace AttenanceSystemApp.Controllers
         }
 
         //Smazani uzivatele
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> DeleteAsync(string id)
         {
@@ -142,6 +147,8 @@ namespace AttenanceSystemApp.Controllers
             }
             return View(userToDelete);
         }
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
         public async Task<IActionResult> GetToDelete(string id)
         {
             var userDetails = await _userManager.FindByIdAsync(id);

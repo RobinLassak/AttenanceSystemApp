@@ -1,10 +1,12 @@
 ﻿using AttenanceSystemApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AttenanceSystemApp.Controllers
 {
+    [Authorize(Roles = "Admin, Director")]
     public class RoleController : Controller
     {
         RoleManager<IdentityRole> _roleManager;
@@ -19,11 +21,13 @@ namespace AttenanceSystemApp.Controllers
             return View(_roleManager.Roles.OrderBy(role => role.Name));
         }
         //Vytvareni nove role
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(string name)
         {
@@ -42,6 +46,7 @@ namespace AttenanceSystemApp.Controllers
             return View(name);
         }
         //Mazani role
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -61,6 +66,7 @@ namespace AttenanceSystemApp.Controllers
             ModelState.AddModelError("", "Role not found");
             return View("Index", _roleManager.Roles);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetToDelete(string id)
         {
             var roleDetails = await _roleManager.FindByIdAsync(id);
@@ -73,6 +79,7 @@ namespace AttenanceSystemApp.Controllers
             return View(roleDetails);
         }
         //Editace role
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -103,6 +110,7 @@ namespace AttenanceSystemApp.Controllers
                 Role = roleToEdit,
             });
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditAsync(RoleModification roleModification)
         {
             if (ModelState.IsValid)

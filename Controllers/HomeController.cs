@@ -28,5 +28,15 @@ namespace AttenanceSystemApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult AccessDenied()
+        {
+            TempData["ErrorMessage"] = "You do not have permission to access this part of the application.";
+            var referer = Request.Headers["Referer"].ToString();
+            if (!string.IsNullOrEmpty(referer))
+            {
+                return Redirect(referer);
+            }
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

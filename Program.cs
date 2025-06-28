@@ -39,6 +39,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.ExpireTimeSpan = TimeSpan.FromMinutes(10); //urcuje jak dlouho zustane uzivatel prihlasen
     options.SlidingExpiration = true; //pokud uzivatel v polovine casu neco provede, prihlasovaci cas se vyresetuje
     options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Home/AccessDenied";
 });
 var app = builder.Build();
 
