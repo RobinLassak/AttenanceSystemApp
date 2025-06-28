@@ -135,5 +135,49 @@ namespace AttenanceSystemApp.Services
 
             return result;
         }
+        //Editace dochazky - kazdy kalendarni den zvlast
+        public async Task<AttenanceRecordDTO> GetAttendanceByEmployeeAndDateAsync(int employeeId, DateTime date)
+        {
+            var record = await _dbContext.AttenanceRecords
+                .FirstOrDefaultAsync(r => r.EmployeeId == employeeId && r.Date.Date == date.Date);
+
+            if (record == null)
+            {
+                return null;
+            }
+
+            return new AttenanceRecordDTO
+            {
+                EmployeeId = record.EmployeeId,
+                Date = record.Date,
+                AttenanceIn = record.AttenanceIn,
+                AttenanceOut = record.AttenanceOut,
+                DoctorIn = record.DoctorIn,
+                DoctorOut = record.DoctorOut,
+                IsVacation = record.IsVacation,
+                IsSickLeave = record.IsSickLeave,
+                WorkedHours = record.WorkedHours
+            };
+        }
+        public async Task UpdateAttendanceAsync(AttenanceRecordDTO dto)
+        {
+            var record = await _dbContext.AttenanceRecords
+                .FirstOrDefaultAsync(r => r.EmployeeId == dto.EmployeeId && r.Date.Date == dto.Date.Date);
+
+            if (record == null)
+            {
+                
+                throw new Exception("Attendance record not found.");
+            }
+
+            record.AttenanceIn = dto.AttenanceIn;
+            record.AttenanceOut = dto.AttenanceOut;
+            record.DoctorIn = dto.DoctorIn;
+            record.DoctorOut = dto.DoctorOut;
+            record.IsVacation = dto.IsVacation;
+            record.IsSickLeave = dto.IsSickLeave;
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

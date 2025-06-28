@@ -78,7 +78,8 @@
                             @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Director") || User.IsInRole("Supervisor")))
                             {
                                             <td>        
-                                               <a class="btn btn-warning btn-sm" asp-action="Edit">Edit</a>
+                                               <a class="btn btn-warning btn-sm" asp-route-id=@record.EmployeeId 
+                                               asp-route-date="@record.Date.ToString("yyyy-MM-dd")" asp-action="Edit">Edit</a>
                                             </td>
                             }        
                                     <td>@record.AttenanceIn</td>

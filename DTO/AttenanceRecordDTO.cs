@@ -1,4 +1,6 @@
-﻿namespace AttenanceSystemApp.DTO
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+namespace AttenanceSystemApp.DTO
 {
     public class AttenanceRecordDTO
     {
@@ -14,7 +16,9 @@
         public bool IsSickLeave { get; set; }
         public TimeSpan? WorkedHours { get; set; }
         public int EmployeeId { get; set; }
+        [ValidateNever]
         public EmployeeDTO Employee { get; set; }
+        [ValidateNever]
         public string AttenanceType { get; set; }
     }
 }

@@ -125,5 +125,28 @@ namespace AttenanceSystemApp.Controllers
 
             return View("ForOneEmployee", model);
         }
+        //Editace dochazky - kazdy kalendarni den zvlast
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id, DateTime date)
+        {
+            var model = await _calendaryDayService.GetAttendanceByEmployeeAndDateAsync(id, date);
+            if (model == null) return NotFound();
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(AttenanceRecordDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _calendaryDayService.UpdateAttendanceAsync(model);
+                return RedirectToAction("GetOneEmployeeAttenance", new
+                {
+                    employeeId = model.EmployeeId,
+                    year = model.Date.Year,
+                    month = model.Date.Month
+                });
+            }
+            return View(model);
+        }
     }
 }
