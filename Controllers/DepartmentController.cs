@@ -1,10 +1,12 @@
 ﻿using AttenanceSystemApp.DTO;
 using AttenanceSystemApp.Services;
 using AttenanceSystemApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AttenanceSystemApp.Controllers
 {
+    [Authorize(Roles = "Admin, Director")]
     public class DepartmentController : Controller
     {
         private readonly DepartmentService _departmentService;
@@ -15,6 +17,7 @@ namespace AttenanceSystemApp.Controllers
             _employeeService = employeeService;
         }
         //Zobrazeni vsech oddeleni
+        [Authorize(Roles = "Admin, Director")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -22,11 +25,13 @@ namespace AttenanceSystemApp.Controllers
             return View(allDepartments);
         }
         //Vytvoreni noveho oddeleni
+        [Authorize(Roles = "Admin, Director")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+        [Authorize(Roles = "Admin, Director")]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(DepartmentDTO newDepartment)
         {
@@ -34,12 +39,14 @@ namespace AttenanceSystemApp.Controllers
             return RedirectToAction("Index");
         }
         //Editace oddeleni
+        [Authorize(Roles = "Admin, Director")]
         [HttpGet]
         public async Task<IActionResult> EditAsync(int id)
         {
             var departmentToEdit = await _departmentService.GetByIdAsync(id);
             return View(departmentToEdit);
         }
+        [Authorize(Roles = "Admin, Director")]
         [HttpPost]
         public async Task<IActionResult> EditAsync(DepartmentDTO departmentDTO, int id)
         {
@@ -47,6 +54,7 @@ namespace AttenanceSystemApp.Controllers
             return RedirectToAction("Index");
         }
         //Smazani oddeleni
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -54,6 +62,7 @@ namespace AttenanceSystemApp.Controllers
             return RedirectToAction("Index");
         }
         //Metoda pro vypis zamestnancu oddeleni
+        [Authorize(Roles = "Admin, Director")]
         [HttpGet]
         public IActionResult Employees(int id)
         {
@@ -73,6 +82,7 @@ namespace AttenanceSystemApp.Controllers
 
             return View("DepartmentEmployees", viewModel);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetToDelete(int id)
         {
             var departmentDetails = await _departmentService.GetByIdAsync(id);
