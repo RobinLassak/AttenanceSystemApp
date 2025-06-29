@@ -23,6 +23,7 @@ builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<AttenanceRecordService>();
 builder.Services.AddScoped<CalendaryDayService>();
+builder.Services.AddScoped<AttenanceReportService>();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireDigit = true;

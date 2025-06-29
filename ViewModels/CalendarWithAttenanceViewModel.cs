@@ -12,7 +12,7 @@ namespace AttenanceSystemApp.ViewModels
 
         public List<CalendaryDayDTO> CalendarDays { get; set; } = new();
         public List<DateTime> Workdays { get; set; } = new();
-
         public int EmployeeId { get; set; }
+        public List<EmployeeMonthlySummaryDTO> MonthlySummaries { get; set; } = new();
     }
 }

@@ -13,13 +13,15 @@ namespace AttenanceSystemApp.Controllers
         private readonly CalendaryDayService _calendaryDayService;
         private readonly EmployeeService _employeeService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly AttenanceReportService _attenanceReportService;
         public CalendaryController(PublicHolidayService publicHolidayService, CalendaryDayService calendaryDayService,
-            UserManager<AppUser> userManager, EmployeeService employeeService)
+            UserManager<AppUser> userManager, EmployeeService employeeService, AttenanceReportService attenanceReportService)
         {
             _publicHolidayService = publicHolidayService;
             _calendaryDayService = calendaryDayService;
             _userManager = userManager;
             _employeeService = employeeService;
+            _attenanceReportService = attenanceReportService;
         }
 
         public async Task<IActionResult> Index(int? year, int? month, string countryCode)
@@ -102,7 +104,8 @@ namespace AttenanceSystemApp.Controllers
                     AvailableYears = Enumerable.Range(DateTime.Now.Year - 5, 11).ToList(),
                     AvailableMonths = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames
                         .Where(m => !string.IsNullOrWhiteSpace(m)).ToList(),
-                    CalendarDays = calendarDays
+                    CalendarDays = calendarDays,
+                    MonthlySummaries = _attenanceReportService.GetMonthlySummaries(calendarDays)
                 });
             }
         }

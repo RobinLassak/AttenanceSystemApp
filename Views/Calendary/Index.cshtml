@@ -1,7 +1,7 @@
 ﻿@model AttenanceSystemApp.ViewModels.CalendarWithAttenanceViewModel
 
 <div class="container text-center">
-    <h1 class="my-5">Calendar of attenance</h1>
+    <h1 class="my-5">Calendar of attendance</h1>
 
     <form asp-controller="Calendary" asp-action="GetCalendarWithAttendance" method="get" class="row justify-content-center mb-4">
         <div class="col-md-2">
@@ -9,7 +9,7 @@
             <select id="year" name="year" class="form-select">
                 @foreach (var year in Model.AvailableYears)
                 {
-                        <option value="@year" selected="@(year == Model.SelectedYear)">@year</option>
+                    <option value="@year" selected="@(year == Model.SelectedYear)">@year</option>
                 }
             </select>
         </div>
@@ -19,7 +19,7 @@
                 @for (int i = 0; i < Model.AvailableMonths.Count; i++)
                 {
                     var monthName = Model.AvailableMonths[i];
-                        <option value="@(i + 1)" selected="@(i + 1 == Model.SelectedMonth)">@monthName</option>
+                    <option value="@(i + 1)" selected="@(i + 1 == Model.SelectedMonth)">@monthName</option>
                 }
             </select>
         </div>
@@ -27,7 +27,36 @@
             <button type="submit" class="btn btn-warning w-100">Zobrazit</button>
         </div>
     </form>
-
+    @if(Model.MonthlySummaries != null && Model.MonthlySummaries.Any())
+    {
+        <h3 class="mb-4">Summary</h3>
+        <div class="table-responsive">
+            <table class="table table-success table-striped">
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Worked (hours)</th>
+                        <th>At the doctor (hours)</th>
+                        <th>Vacation (days)</th>
+                        <th>Sick leave (days)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Model.MonthlySummaries)
+                    {
+                            <tr>
+                                <td>@s.EmployeeName</td>
+                                <td>@s.TotalWorkedHours</td>
+                                <td>@s.TotalDoctorHours</td>
+                                <td>@s.VacationDays</td>
+                                <td>@s.SickLeaveDays</td>
+                            </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    <h3 class="my-4">Attendance</h3>
     <div class="table-responsive">
         <table class="table table-success table-striped">
             <thead>
