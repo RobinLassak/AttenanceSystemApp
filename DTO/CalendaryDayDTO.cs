@@ -23,5 +23,6 @@
         public bool IsSickLeave { get; set; }
 
         public string? WorkedHours { get; set; }
+        public TimeSpan? WorkedTimeSpan { get; set; }
     }
 }

@@ -67,7 +67,7 @@ namespace AttenanceSystemApp.Services
                         IsVacation = record?.IsVacation ?? false,
                         IsSickLeave = record?.IsSickLeave ?? false,
                         WorkedHours = worked.HasValue ? $"{(int)worked.Value.TotalHours:D2}:{worked.Value.Minutes:D2}" : "0",
-
+                        WorkedTimeSpan = worked,
 
                         });
                 }
@@ -129,7 +129,8 @@ namespace AttenanceSystemApp.Services
                     SmokeOut = record?.SmokeOut?.ToString(@"hh\:mm"),
                     IsVacation = record?.IsVacation ?? false,
                     IsSickLeave = record?.IsSickLeave ?? false,
-                    WorkedHours = worked.HasValue ? $"{(int)worked.Value.TotalHours:D2}:{worked.Value.Minutes:D2}" : "0"
+                    WorkedHours = worked.HasValue ? $"{(int)worked.Value.TotalHours:D2}:{worked.Value.Minutes:D2}" : "0",
+                    WorkedTimeSpan = worked,
                 });
             }
 

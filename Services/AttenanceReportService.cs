@@ -24,7 +24,8 @@ namespace AttenanceSystemApp.Services
                         return 0;
                     })),
                     VacationDays = g.Count(x => x.IsVacation),
-                    SickLeaveDays = g.Count(x => x.IsSickLeave)
+                    SickLeaveDays = g.Count(x => x.IsSickLeave),
+                    DaysPresent = g.Count(x => x.WorkedTimeSpan.HasValue && x.WorkedTimeSpan.Value.TotalMinutes > 0)
                 })
                 .ToList();
         }

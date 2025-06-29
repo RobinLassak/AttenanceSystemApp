@@ -35,7 +35,36 @@
             <button type="submit" class="btn btn-warning w-100">Zobrazit</button>
         </div>
     </form>
-
+    @if (Model.MonthlySummaries != null)
+    {
+            <h3 class="mb-4">Summary</h3>
+            <div class="table-responsive">
+                <table class="table table-success table-striped">
+                    <thead>
+                        <tr>
+                            <th>Worked (hours)</th>
+                            <th>At the doctor (hours)</th>
+                            <th>Vacation (days)</th>
+                            <th>Sick leave (days)</th>
+                            <th>Days present</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var s in Model.MonthlySummaries)
+                    {
+                                    <tr>
+                                        <td>@s.TotalWorkedHours</td>
+                                        <td>@s.TotalDoctorHours</td>
+                                        <td>@s.VacationDays</td>
+                                        <td>@s.SickLeaveDays</td>
+                                        <td>@s.DaysPresent</td>
+                                    </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+    }
+    <h3 class="my-4">Attendance</h3>
     <div class="table-responsive">
         <table class="table table-success table-striped">
             <thead>

@@ -7,5 +7,6 @@
         public int TotalDoctorHours { get; set; }
         public int VacationDays { get; set; }
         public int SickLeaveDays { get; set; }
+        public int DaysPresent { get; set; }
     }
 }

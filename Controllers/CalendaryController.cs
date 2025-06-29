@@ -90,7 +90,9 @@ namespace AttenanceSystemApp.Controllers
                     AvailableYears = Enumerable.Range(DateTime.Now.Year - 5, 11).ToList(),
                     AvailableMonths = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames
                         .Where(m => !string.IsNullOrWhiteSpace(m)).ToList(),
-                    CalendarDays = calendarDays
+                    CalendarDays = calendarDays,
+                    MonthlySummaries = _attenanceReportService.GetMonthlySummaries(calendarDays),
+                    EmployeeId = employeeId ?? 0
                 });
             }
             else
@@ -124,7 +126,9 @@ namespace AttenanceSystemApp.Controllers
                 AvailableMonths = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthNames
                     .Where(m => !string.IsNullOrWhiteSpace(m))
                     .ToList(),
-                CalendarDays = calendarDays
+                CalendarDays = calendarDays,
+                EmployeeId = employeeId ?? 0,
+                MonthlySummaries = _attenanceReportService.GetMonthlySummaries(calendarDays)
             };
 
             return View("ForOneEmployee", model);
