@@ -19,12 +19,9 @@
         <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
         <input type="hidden" name="Date" value="@Model.Date.ToString("yyyy-MM-dd")" />
 
-        <div class="mb-3">
+        <div class="form-group">
             <label class="form-label">Attendance In</label>
             <input type="time" class="form-control" name="AttenanceIn" value="@Model.AttenanceIn?.ToString("hh\\:mm")" />
-        </div>
-
-        <div class="mb-3">
             <label class="form-label">Attendance Out</label>
             <input type="time" class="form-control" name="AttenanceOut" value="@Model.AttenanceOut?.ToString("hh\\:mm")" />
         </div>
@@ -33,7 +30,7 @@
                 <button type="submit" class="btn btn-warning">Save</button>
             </div>
             <div>
-                <a asp-action="ForOneEmployee" class="btn btn-secondary text-white">Back</a>
+                <a asp-action="Index" asp-controller="Employee" class="btn btn-secondary text-white">Back</a>
             </div>
         </div>
     </form>

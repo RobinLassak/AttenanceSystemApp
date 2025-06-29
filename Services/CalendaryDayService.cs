@@ -143,7 +143,18 @@ namespace AttenanceSystemApp.Services
 
             if (record == null)
             {
-                return null;
+                return new AttenanceRecordDTO
+                {
+                    EmployeeId = employeeId,
+                    Date = date,
+                    AttenanceIn = null,
+                    AttenanceOut = null,
+                    DoctorIn = null,
+                    DoctorOut = null,
+                    IsVacation = false,
+                    IsSickLeave = false,
+                    WorkedHours = TimeSpan.Zero,
+                };
             }
 
             return new AttenanceRecordDTO
@@ -166,8 +177,12 @@ namespace AttenanceSystemApp.Services
 
             if (record == null)
             {
-                
-                throw new Exception("Attendance record not found.");
+                record = new AttenanceRecord
+                {
+                    EmployeeId = dto.EmployeeId,
+                    Date = dto.Date
+                };
+                _dbContext.AttenanceRecords.Add(record);
             }
 
             record.AttenanceIn = dto.AttenanceIn;
