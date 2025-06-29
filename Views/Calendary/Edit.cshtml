@@ -24,6 +24,40 @@
             <input type="time" class="form-control" name="AttenanceIn" value="@Model.AttenanceIn?.ToString("hh\\:mm")" />
             <label class="form-label">Attendance Out</label>
             <input type="time" class="form-control" name="AttenanceOut" value="@Model.AttenanceOut?.ToString("hh\\:mm")" />
+            <label class="form-label">Doctor In</label>
+            <input type="time" class="form-control" name="DoctorIn" value="@Model.DoctorIn?.ToString("hh\\:mm")" />
+            <label class="form-label">Doctor Out</label>
+            <input type="time" class="form-control" name="DoctorOut" value="@Model.DoctorOut?.ToString("hh\\:mm")" />
+            <div class="mt-1">
+                <label class="mb-2" for="IsVacation">Vacation</label>
+                <select class="form-control" id="IsVacation" name="IsVacation">
+                    @if (Model.IsVacation)
+                    {
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
+                    }
+                    else
+                    {
+                        <option value="true">Yes</option>
+                        <option value="false" selected>No</option>
+                    }
+                </select>
+            </div>
+            <div class="mt-1">
+                <label class="mb-2" for="IsSickLeave">Sick leave</label>
+                <select class="form-control" id="IsSickLeave" name="IsSickLeave">
+                    @if (Model.IsSickLeave)
+                    {
+                            <option value="true" selected>Yes</option>
+                            <option value="false">No</option>
+                    }
+                    else
+                    {
+                            <option value="true">Yes</option>
+                            <option value="false" selected>No</option>
+                    }
+                </select>
+            </div>
         </div>
         <div class="mt-3 d-flex justify-content-between">
             <div>
