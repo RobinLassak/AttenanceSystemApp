@@ -2,6 +2,7 @@
 using AttenanceSystemApp.Models;
 using AttenanceSystemApp.Services;
 using AttenanceSystemApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -129,6 +130,7 @@ namespace AttenanceSystemApp.Controllers
             return View("ForOneEmployee", model);
         }
         //Editace dochazky - kazdy kalendarni den zvlast
+        [Authorize(Roles = "Admin, Director, Supervisor")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id, DateTime date)
         {
@@ -136,6 +138,7 @@ namespace AttenanceSystemApp.Controllers
             if (model == null) return NotFound();
             return View(model);
         }
+        [Authorize(Roles = "Admin, Director, Supervisor")]
         [HttpPost]
         public async Task<IActionResult> Edit(AttenanceRecordDTO model)
         {
